@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #f4f7f6; /* Un color de fondo suave */
+  background-color: #f4f7f6;
   color: #333; /* Color de texto principal */
   line-height: 1.6;
 }
@@ -107,7 +107,7 @@ h1, h2, h3, h4, h5, h6 {
   border: 1px solid #d1d5db;
   border-radius: 25px;
   padding: 6px 12px;
-  flex-grow: 1; /* Permitimos que crezca */
+  flex-grow: 1; 
   margin: 0 20px; /* Margen horizontal para separar del logo y acciones */
   max-width: 550px;
   background-color: #f9fafb;
