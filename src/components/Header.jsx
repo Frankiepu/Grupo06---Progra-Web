@@ -1,8 +1,8 @@
-// src/components/Header.jsx
+
 import React from 'react';
 
 function Header() {
-  // Iconos temporales usando emojis.
+  
   const SearchIcon = () => <span role="img" aria-label="Buscar">🔍</span>;
   const UserIcon = () => <span role="img" aria-label="Usuario">👤</span>;
   const ShoppingCartIcon = () => <span role="img" aria-label="Carrito">🛒</span>;
@@ -32,12 +32,15 @@ function Header() {
         </div>
 
         <div className="header-actions">
-          <button className="action-button user-button" aria-label="Cuenta de usuario">
-            <UserIcon />
-          </button>
+          <div className="user-button" aria-label="Cuenta de usuario">
+            <div className="user-info">
+              <UserIcon />
+              <span className="user-label">Mi Cuenta</span>
+            </div>
+          </div>
           <button className="action-button cart-button" aria-label="Carrito de compras">
             <ShoppingCartIcon />
-            <span className="cart-badge">3</span>
+            <span className="cart-badge">0</span>
           </button>
           <button className="action-button menu-button-mobile" aria-label="Menú">
             <MenuIcon />

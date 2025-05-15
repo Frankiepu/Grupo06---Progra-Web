@@ -1,4 +1,4 @@
-// src/components/ProductCard.jsx
+
 import React from 'react';
 
 function ProductCard({ product }) {
@@ -21,6 +21,12 @@ function ProductCard({ product }) {
       </div>
       <div className="product-info">
         <h3 className="product-name" title={product.name}>{product.name}</h3>
+
+        {/* mostrar categoría en el producto (debajo del nombre)*/}
+        {product.category && (
+          <p className="product-category">{product.category}</p>
+        )}
+        
         <div className="product-pricing">
           <p className="product-price">{product.price}</p>
           {product.oldPrice && (

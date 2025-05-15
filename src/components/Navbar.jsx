@@ -1,8 +1,8 @@
-// src/components/Navbar.jsx
+
 import React from 'react';
 
-function Navbar() { // Asegúrate que el nombre de la función sea "Navbar" con N mayúscula
-  const categories = ['Electrónicos', 'Moda', 'Hogar', 'Juguetes', 'Deportes', 'Libros'];
+function Navbar() { 
+  const categories = ['Nosotros', 'Productos', 'Categorias'];
 
   return (
     <nav className="main-navbar">
@@ -26,4 +26,4 @@ function Navbar() { // Asegúrate que el nombre de la función sea "Navbar" con 
   );
 }
 
-export default Navbar; // ¡ESTA LÍNEA ES CRUCIAL Y DEBE SER EXACTA!
+export default Navbar;

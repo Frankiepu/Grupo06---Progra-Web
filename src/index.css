@@ -25,7 +25,7 @@ button {
   border-radius: 4px;
   border: 1px solid transparent;
   font-size: 1rem;
-  font-family: 'Inter', sans-serif; /* Asegura que los botones usen la fuente */
+  font-family: 'Inter', sans-serif; 
 }
 
 a {
@@ -67,7 +67,7 @@ h1, h2, h3, h4, h5, h6 {
 .section-title {
   font-size: 1.8rem;
   margin-bottom: 25px;
-  color: #2c3e50; /* Un azul oscuro para títulos */
+  color: #2c3e50; 
   text-align: center;
   padding-bottom: 10px;
   border-bottom: 2px solid #e0e0e0; /* Una línea sutil debajo del título */
@@ -93,7 +93,7 @@ h1, h2, h3, h4, h5, h6 {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* flex-wrap: wrap; Quitamos el wrap para un diseño más fijo de escritorio */
+  
 }
 
 .logo-container .logo-img {
@@ -108,7 +108,7 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 25px;
   padding: 6px 12px;
   flex-grow: 1; 
-  margin: 0 20px; /* Margen horizontal para separar del logo y acciones */
+  margin: 0 20px; 
   max-width: 550px;
   background-color: #f9fafb;
 }
@@ -194,7 +194,7 @@ h1, h2, h3, h4, h5, h6 {
 .nav-list {
   display: flex;
   justify-content: center;
-  /* flex-wrap: wrap; Mantenemos en una línea, si no cabe, se desbordará */
+  
 }
 
 .nav-item {
@@ -293,12 +293,7 @@ h1, h2, h3, h4, h5, h6 {
 .products-grid, .categories-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  /* auto-fit seguirá intentando ajustar columnas, si quieres un número fijo
-     para escritorio, podrías usar algo como:
-     grid-template-columns: repeat(4, 1fr); para 4 columnas
-     o grid-template-columns: repeat(3, 1fr); para 3 columnas
-     Por ahora, dejaremos auto-fit, que es flexible.
-  */
+ 
   gap: 25px;
 }
 
@@ -470,10 +465,6 @@ h1, h2, h3, h4, h5, h6 {
 .footer-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
-  /* Si quieres un número fijo de columnas para escritorio, por ejemplo 4:
-     grid-template-columns: repeat(4, 1fr);
-     auto-fit seguirá siendo flexible.
-  */
   gap: 35px;
   margin-bottom: 40px;
 }
@@ -564,4 +555,29 @@ h1, h2, h3, h4, h5, h6 {
   text-align: center;
   font-size: 0.85rem;
   color: #7f8c8d;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.user-label {
+  font-size: 14px;
+  color: #333; /* Cambiar color de la frase "mi cuenta" */
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.3s ease;
+}
+
+.user-label:hover {
+  color: #007bff; /* Se pone azul al pasar el mouse y se subraya */
+  text-decoration: underline;
+}
+.product-category {
+  font-size: 13px;
+  color: #666;
+  margin: -6px 0 8px 0;
+  font-weight: 500;
 }

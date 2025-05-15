@@ -1,12 +1,11 @@
-// src/components/Footer.jsx
+
 import React from 'react';
+import facebookIcon from '../assets/logofb.png';
+import instagramIcon from '../assets/logoig.png';
+import twitterIcon from '../assets/logox.png';
+import youtubeIcon from '../assets/logoyt.png';
 
 function Footer() {
-  const FacebookIcon = () => <span role="img" aria-label="Facebook">📘</span>;
-  const InstagramIcon = () => <span role="img" aria-label="Instagram">📸</span>;
-  const TwitterIcon = () => <span role="img" aria-label="Twitter">🐦</span>;
-  const YoutubeIcon = () => <span role="img" aria-label="YouTube">▶️</span>;
-
   return (
     <footer className="app-footer">
       <div className="container footer-container">
@@ -17,10 +16,18 @@ function Footer() {
               Tu tienda online de confianza para encontrar los mejores productos a precios increíbles. Calidad y servicio garantizados.
             </p>
             <div className="social-icons">
-              <a href="#" aria-label="Facebook"><FacebookIcon /></a>
-              <a href="#" aria-label="Instagram"><InstagramIcon /></a>
-              <a href="#" aria-label="Twitter"><TwitterIcon /></a>
-              <a href="#" aria-label="Youtube"><YoutubeIcon /></a>
+              <a href="#" aria-label="Facebook">
+                <img src={facebookIcon} alt="Facebook" className="social-icon" />
+              </a>
+              <a href="#" aria-label="Instagram">
+                <img src={instagramIcon} alt="Instagram" className="social-icon" />
+              </a>
+              <a href="#" aria-label="Twitter">
+                <img src={twitterIcon} alt="Twitter" className="social-icon" />
+              </a>
+              <a href="#" aria-label="Youtube">
+                <img src={youtubeIcon} alt="YouTube" className="social-icon" />
+              </a>
             </div>
           </div>
 
