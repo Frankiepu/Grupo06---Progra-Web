@@ -1,4 +1,3 @@
-// src/components/CategoryCard.jsx
 import React from 'react';
 
 function CategoryCard({ category }) {

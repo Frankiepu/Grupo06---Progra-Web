@@ -1,7 +1,6 @@
-
 import React from 'react';
 
-function ProductCard({ product }) {
+function ProductCard({ product, onAddToCart }) {
   const ShoppingCartIcon = () => <span role="img" aria-label="Agregar al carrito">🛒</span>;
 
   return (
@@ -11,7 +10,10 @@ function ProductCard({ product }) {
           src={product.imageUrl}
           alt={`Imagen de ${product.name}`}
           className="product-image"
-          onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/300x300/cccccc/000000?text=Producto"; }}
+          onError={(e) => { 
+            e.target.onerror = null; 
+            e.target.src = "https://placehold.co/300x300/cccccc/000000?text=Producto"; 
+          }}
         />
         {product.discount && (
           <span className="product-discount-badge">
@@ -22,18 +24,23 @@ function ProductCard({ product }) {
       <div className="product-info">
         <h3 className="product-name" title={product.name}>{product.name}</h3>
 
-        {/* mostrar categoría en el producto (debajo del nombre)*/}
+        {/*Mostrar si existe categoría*/}
         {product.category && (
           <p className="product-category">{product.category}</p>
         )}
-        
+
         <div className="product-pricing">
           <p className="product-price">{product.price}</p>
           {product.oldPrice && (
             <p className="product-old-price">{product.oldPrice}</p>
           )}
         </div>
-        <button className="add-to-cart-button">
+
+        {/*Botón para agregar al carrito*/}
+        <button
+          className="add-to-cart-button"
+          onClick={() => onAddToCart(product)}
+        >
           <span className="cart-icon-button-inner">
             <ShoppingCartIcon />
           </span>
@@ -45,3 +52,4 @@ function ProductCard({ product }) {
 }
 
 export default ProductCard;
+

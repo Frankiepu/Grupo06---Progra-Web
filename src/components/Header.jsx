@@ -1,8 +1,6 @@
-
 import React from 'react';
 
-function Header() {
-  
+function Header({ cartCount, onCartClick }) {
   const SearchIcon = () => <span role="img" aria-label="Buscar">🔍</span>;
   const UserIcon = () => <span role="img" aria-label="Usuario">👤</span>;
   const ShoppingCartIcon = () => <span role="img" aria-label="Carrito">🛒</span>;
@@ -16,7 +14,10 @@ function Header() {
             src="https://placehold.co/150x50/4A90E2/ffffff?text=MiTienda"
             alt="Logo MiTienda"
             className="logo-img"
-            onError={(e) => { e.target.onerror = null; e.target.src="https://placehold.co/150x50/cccccc/000000?text=Logo+Error"; }}
+            onError={(e) => { 
+              e.target.onerror = null; 
+              e.target.src = "https://placehold.co/150x50/cccccc/000000?text=Logo+Error"; 
+            }}
           />
         </div>
 
@@ -38,11 +39,21 @@ function Header() {
               <span className="user-label">Mi Cuenta</span>
             </div>
           </div>
-          <button className="action-button cart-button" aria-label="Carrito de compras">
+
+          {/* Botón de carrito actualizado */}
+          <button
+            className="action-button cart-button"
+            aria-label="Carrito de compras"
+            onClick={onCartClick}
+          >
             <ShoppingCartIcon />
-            <span className="cart-badge">0</span>
+            <span className="cart-badge">{cartCount}</span>
           </button>
-          <button className="action-button menu-button-mobile" aria-label="Menú">
+
+          <button
+            className="action-button menu-button-mobile"
+            aria-label="Menú"
+          >
             <MenuIcon />
           </button>
         </div>
@@ -52,3 +63,4 @@ function Header() {
 }
 
 export default Header;
+

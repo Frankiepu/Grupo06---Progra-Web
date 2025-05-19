@@ -1,8 +1,7 @@
-// src/components/HomePageLayout.jsx
 import React from 'react';
 import Header from './Header';
 import Navbar from './Navbar';
-import HomePage from './HomePage';
+import HomePage from './HomePage'; 
 import Footer from './Footer';
 
 function HomePageLayout() {
