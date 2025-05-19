@@ -1,0 +1,50 @@
+.stats-grid {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.stat-card {
+  flex: 1;
+  border: 1px solid #ddd;
+  padding: 20px;
+  border-radius: 6px;
+  background: #f9f9f9;
+}
+
+.stat-card h2 {
+  font-size: 16px;
+  color: #555;
+}
+
+.number {
+  font-size: 28px;
+  font-weight: bold;
+  color: #EB3B3B;
+  margin-top: 10px;
+}
+
+.filters label {
+  font-weight: bold;
+}
+
+.date-group {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.date-group input {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.btn-primary {
+  background: #EB3B3B;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+}
