@@ -1,0 +1,169 @@
+/* Estilos generales para HomePage */
+.homepage-container {
+    font-family: 'Inter', sans-serif;
+    background-color: #f4f6f8; /* Fondo general claro */
+    color: #333;
+    padding-bottom: 40px;
+  }
+  
+  /* Sección del Banner Promocional */
+  .banner-section {
+    height: 400px; /* Altura para vista web */
+    background-size: cover;
+    background-position: center;
+    border-radius: 12px;
+    margin: 30px 40px; /* Márgenes para vista web */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+    transition: background-image 0.5s ease-in-out;
+  }
+  
+  .banner-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    z-index: 1;
+  }
+  
+  .banner-text-overlay {
+    position: relative;
+    z-index: 2;
+    background-color: rgba(0, 0, 0, 0.65);
+    padding: 30px 40px;
+    border-radius: 10px;
+    color: white;
+    max-width: 90%;
+  }
+  
+  .banner-text-overlay h1 {
+    font-size: 3.2rem; /* Tamaño para vista web */
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+  }
+  
+  .banner-text-overlay p {
+    font-size: 1.3rem; /* Tamaño para vista web */
+    margin-bottom: 25px;
+    line-height: 1.6;
+  }
+  
+  .promo-button {
+    background-color: #ffc107;
+    color: #212529;
+    border: none;
+    border-radius: 8px;
+    padding: 14px 28px;
+    font-size: 1.1rem; /* Tamaño para vista web */
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .promo-button:hover {
+    background-color: #e0a800;
+    transform: translateY(-2px);
+  }
+  
+  /* Controles y Título de Sección */
+  .section-header-controls {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 40px;
+    margin-bottom: 30px;
+    padding: 0 25px; /* Padding para vista web */
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+  }
+  
+  .section-title {
+    font-size: 2.5rem; /* Tamaño para vista web */
+    font-weight: 600;
+    color: #2c3e50;
+    text-align: center;
+    flex-grow: 1;
+    margin: 0;
+  }
+  
+  .section-title > span {
+    display: inline-block;
+    padding-bottom: 10px;
+    padding-left: 0;   /* Eliminado padding izquierdo */
+    padding-right: 0;  /* Eliminado padding derecho */
+    border-bottom: 3px solid #e0e0e0;
+    line-height: 1.2;
+  }
+  
+  /* Botones de Flecha para Carruseles */
+  .arrow-button {
+    background-color: #fff;
+    color: #2c3e50;
+    border: 1px solid #ccd1d9;
+    border-radius: 50%;
+    width: 44px;  /* Tamaño para vista web */
+    height: 44px; /* Tamaño para vista web */
+    font-size: 1.7rem; /* Tamaño para vista web */
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    flex-shrink: 0;
+    position: relative;
+    z-index: 5;
+    -webkit-tap-highlight-color: transparent;
+  }
+  
+  .arrow-button:hover:not(:disabled) {
+    background-color: #2c3e50;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  .arrow-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    background-color: #e9ecef;
+  }
+  
+  /* Secciones de Contenido */
+  .products-section,
+  .categories-section {
+    padding: 0 30px 30px 30px; /* Padding para vista web */
+  }
+  
+  /* Cuadrículas para Productos y Categorías */
+  .products-grid,
+  .categories-grid {
+    display: grid;
+    gap: 25px;
+    justify-content: center;
+    position: relative;
+    z-index: 1;
+  }
+  
+  .products-grid {
+    /* Fija 3 columnas para productos destacados en la vista web principal */
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .categories-grid {
+    /* Mantenemos auto-fit para categorías, o puedes fijarlo también si lo deseas */
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  }
+  
