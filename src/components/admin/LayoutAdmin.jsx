@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './layoutAdmin.css';
-
 function LayoutAdmin() {
   const { pathname } = useLocation();
 

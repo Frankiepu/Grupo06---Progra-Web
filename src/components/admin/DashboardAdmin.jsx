@@ -96,10 +96,10 @@ function AdminDashboard() {
           <div className="tabla-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h2>Listado de órdenes</h2>
             <div style={{ display: 'flex', gap: '10px' }}>
-              <button className="btn" onClick={() => window.location.href = '/lista-productos'}>
+              <button className="btn" onClick={() => window.location.href = '/admin/productos'}>
                 📦 Ver productos
               </button>
-              <button className="btn">
+              <button className="btn" onClick={() => window.location.href = '/admin/ordenes2'} >
                 📋 Ver todas las órdenes
               </button>
             </div>

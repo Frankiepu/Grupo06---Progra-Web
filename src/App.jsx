@@ -18,6 +18,11 @@ import ListaOrdenesUsuario from './components/usuario/ListaOrdenesUsuario';
 import ListadoCategoriasAdmin from './components/admin/ListadoCategoriasAdmin';
 import AgregarCategoriaAdmin from './components/admin/AgregarCategoriaAdmin';
 import ListaOrdenesAdmin from './components/admin/ListaOrdenesAdmin';
+import ListaOrdenes2 from './components/admin/ListaOrdenes2';
+import DashboardAdmin from './components/admin/DashboardAdmin';
+import AgregarproductoAdmin from './components/admin/AgregarproductoAdmi';
+import ListaProductos from './components/admin/ListaProductos';
+
 
 const ProductsPagePlaceholder = ({ addToCart }) => (
   <div>
@@ -117,7 +122,11 @@ function App() {
         <Route path="/admin/categorias" element={<ListadoCategoriasAdmin />} />
         <Route path="/admin/categorias/nueva" element={<AgregarCategoriaAdmin />} />
         <Route path="/admin/ordenes" element={<ListaOrdenesAdmin allOrders={completedOrders} updateOrderStatus={updateOrderStatus} />}/> 
-        
+        <Route path="/admin/dashboard" element={<DashboardAdmin />} />   
+        <Route path="/admin/productos" element={<ListaProductos />} />
+        <Route path="/admin/productos/nuevo" element={<AgregarproductoAdmin />} />
+        <Route path="/admin/ordenes2" element={<ListaOrdenes2 />} /> 
+
         <Route path="*" element={
           <UserLayout {...userLayoutProps}>
             <div style={{ textAlign: 'center', padding: '50px' }}>
