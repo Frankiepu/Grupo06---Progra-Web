@@ -21,13 +21,13 @@ function Header({ cartCount, onCartClick, onLoginClick }) {
   const handleLogout = () => {
     // Lógica para cerrar sesión
     localStorage.removeItem("isLoggedIn");
-    localStorage.removeItem("userEmail"); 
+    localStorage.removeItem("userEmail");
     localStorage.removeItem("registeredUser"); // Limpia también el objeto de usuario
     setUserName(null);
     // Considera usar navigate('/') de react-router-dom aquí si quieres una transición SPA
     // Para ello, necesitarías importar useNavigate y obtener la función navigate.
     // Por ahora, window.location.reload() fuerza una recarga completa.
-    window.location.reload(); 
+    window.location.reload();
   };
 
   // Tus componentes de íconos
@@ -52,14 +52,14 @@ function Header({ cartCount, onCartClick, onLoginClick }) {
             type="search"
             placeholder="Buscar productos..."
             className="search-input"
-            // Si quieres que la búsqueda navegue, necesitarías useNavigate y un manejador:
-            // onKeyDown={(e) => { if (e.key === 'Enter') { /* const navigate = useNavigate(); navigate(`/productos?q=${e.target.value}`); */ } }}
+          // Si quieres que la búsqueda navegue, necesitarías useNavigate y un manejador:
+          // onKeyDown={(e) => { if (e.key === 'Enter') { /* const navigate = useNavigate(); navigate(`/productos?q=${e.target.value}`); */ } }}
           />
-          <div 
+          <div
             className="search-icon-wrapper"
-            // Si quieres que el ícono de búsqueda navegue:
-            // onClick={() => { /* const navigate = useNavigate(); navigate('/productos'); */ }}
-            // style={{ cursor: 'pointer' }}
+          // Si quieres que el ícono de búsqueda navegue:
+          // onClick={() => { /* const navigate = useNavigate(); navigate('/productos'); */ }}
+          // style={{ cursor: 'pointer' }}
           >
             <SearchIcon />
           </div>
@@ -94,11 +94,13 @@ function Header({ cartCount, onCartClick, onLoginClick }) {
             >
               <div className="user-info">
                 <UserIcon />
-                <span className="user-label">Mi Cuenta</span>
+                <Link to="/login" className="user-label" style={{ textDecoration: 'none' }}>
+                  Mi Cuenta
+                </Link>
               </div>
             </button>
           )}
-          
+
           <button
             className="action-button cart-button"
             aria-label="Carrito de compras"
@@ -111,7 +113,7 @@ function Header({ cartCount, onCartClick, onLoginClick }) {
           <button
             className="action-button menu-button-mobile"
             aria-label="Menú"
-            // Aquí iría la lógica para el menú móvil si es necesario
+          // Aquí iría la lógica para el menú móvil si es necesario
           >
             <MenuIcon />
           </button>

@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Registro.css";
 
-function Register({ onBack }) {
+function Register() {
+    const navigate = useNavigate(); 
     const [formData, setFormData] = useState({
         nombre: "",
         apellido: "",
@@ -57,7 +59,7 @@ function Register({ onBack }) {
 
         // tiempo para poder ir al login
         setTimeout(() => {
-            onBack(); 
+            navigate("/login"); 
         }, 2000);
     };
 
@@ -136,7 +138,7 @@ function Register({ onBack }) {
                 </form>
 
                 <button
-                    onClick={onBack}
+                    onClick={() => navigate("/login")}
                     className="back-button"
                 >
                     ⬅ Volver al inicio
