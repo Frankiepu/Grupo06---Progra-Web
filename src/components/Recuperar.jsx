@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Login.css'; // Puedes usar los mismos estilos que Login
 
-function Recuperar({ onBack }) {
+function Recuperar() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -44,7 +46,7 @@ function Recuperar({ onBack }) {
         )}
 
         <button
-          onClick={onBack}
+          onClick={() => navigate('/login')}
           style={{
             marginTop: '20px',
             backgroundColor: '#ddd',

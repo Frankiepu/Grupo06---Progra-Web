@@ -30,7 +30,7 @@ function Login({ onBack, onRegisterClick, onRecoverClick }) {
 
       // Regresar al inicio después de 1 segundo
       setTimeout(() => {
-        onBack(); // esto oculta el login y vuelve a la vista principal
+        window.location.href = "/";  // esto oculta el login y vuelve a la vista principal
       }, 1000);
 
     } else {
