@@ -5,6 +5,8 @@ import UserLayout from './components/UserLayout';
 
 import HomePage from './components/HomePage';
 import Login from './components/Login';
+import Registro from "./components/Registro";
+import Recuperar from './components/Recuperar';
 import DetalleOrdenUsuario from './components/usuario/DetalleOrdenUsuario';
 import DatosUsuario from './components/usuario/DatosUsuario';
 import CambiarContrasena from './components/usuario/CambiarContrasena';
@@ -25,6 +27,9 @@ function App() {
   const [viewCart, setViewCart] = useState(false);
   const [viewCheckout, setViewCheckout] = useState(false);
   const [completedOrders, setCompletedOrders] = useState([]);
+  const [showLogin, setShowLogin] = useState(false);
+  const [showRegister, setShowRegister] = useState(false);
+  const [showRecover, setShowRecover] = useState(false);
 
   const navigate = useNavigate();
 
@@ -42,12 +47,15 @@ function App() {
     });
   };
 
-  const showHome = () => { setViewCart(false); setViewCheckout(false); navigate('/'); };
-  const showCartView = () => { setViewCheckout(false); setViewCart(true); };
+  const showHome = () => { setViewCart(false); setViewCheckout(false); setShowLogin(false); setShowRegister(false); setShowRecover(false); navigate('/'); };
+  const showCartView = () => { setViewCheckout(false); setShowLogin(false); setShowRegister(false); setShowRecover(false); setViewCart(true); };
   const showCheckoutView = () => { setViewCart(false); setViewCheckout(true); };
-  
+  const showLoginScreen = () => { setViewCart(false); setViewCheckout(false); setShowRegister(false); setShowRecover(false); setShowLogin(true); };
+  const showRegisterScreen = () => { setViewCart(false); setViewCheckout(false); setShowLogin(false); setShowRecover(false); setShowRegister(true); };
+  const showRecoverScreen = () => { setViewCart(false); setViewCheckout(false); setShowLogin(false); setShowRegister(false); setShowRecover(true); };
+
   const changeQuantity = (productId, delta) => {
-    setCartItems(prev => prev.map(item => item.id === productId ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item ));
+    setCartItems(prev => prev.map(item => item.id === productId ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item));
   };
   const removeItem = (productId) => {
     setCartItems(prev => prev.filter(item => item.id !== productId));
@@ -64,7 +72,7 @@ function App() {
       estado: 'Procesando',
     };
     setCompletedOrders(prevOrders => [...prevOrders, newOrder]);
-    setCartItems([]); 
+    setCartItems([]);
     setViewCart(false);
     setViewCheckout(false);
     navigate(`/usuario/orden/detalle/${newOrderId}`);
@@ -84,16 +92,38 @@ function App() {
     );
     console.log(`Estado de orden ${orderId} actualizado a ${newStatus} en App.jsx`);
   };
-
+  // Mostrar pantallas modales (sin rutas)
+  if (showRecover || showRegister || showLogin) {
+    return (
+      <div className="App">
+        <Header cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen} />
+        <Navbar />
+        <main className="main-content container">
+          {showRecover ? (
+            <Recuperar onBack={showHome} />
+          ) : showRegister ? (
+            <Registro onBack={showLoginScreen} />
+          ) : (
+            <Login
+              onBack={showHome}
+              onRegisterClick={showRegisterScreen}
+              onRecoverClick={showRecoverScreen}
+            />
+          )}
+        </main>
+        <Footer />
+      </div>
+    );
+  }
   if (viewCheckout) {
     return (
       <div className="App">
-        <Header cartCount={totalCount} onCartClick={showCartView} />
+        <Header cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen} />
         <Navbar />
         <main className="main-content container">
-          <Checkout 
-            cartItems={cartItems} 
-            onBackToCart={showCartView} 
+          <Checkout
+            cartItems={cartItems}
+            onBackToCart={showCartView}
             onOrderComplete={handleCompleteOrder}
           />
         </main>
@@ -104,7 +134,7 @@ function App() {
   if (viewCart) {
     return (
       <div className="App">
-        <Header cartCount={totalCount} onCartClick={showCartView} />
+        <Header cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen}/>
         <Navbar />
         <main className="main-content container">
           <Carrito cartItems={cartItems} onBack={showHome} onQuantityChange={changeQuantity} onRemoveItem={removeItem} onCheckout={showCheckoutView} />
@@ -118,52 +148,47 @@ function App() {
     <div className="App">
       <Routes>
         <Route path="/" element={
-          <UserLayout cartCount={totalCount} onCartClick={showCartView}>
+          <UserLayout cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen}>
             <HomePage addToCart={handleAddToCart} />
           </UserLayout>
-        }/>
-        <Route path="/login" element={
-          <UserLayout cartCount={totalCount} onCartClick={showCartView}>
-            <Login />
-          </UserLayout>
-        }/>
-        
+        } />
+  
         <Route path="/usuario/ordenes" element={
-          <UserLayout cartCount={totalCount} onCartClick={showCartView}>
-            <ListaOrdenesUsuario orders={completedOrders} /> 
+          <UserLayout cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen}>
+            <ListaOrdenesUsuario orders={completedOrders} />
           </UserLayout>
-        }/>
+        } />
         <Route path="/usuario/orden/detalle/:orderId" element={
-          <UserLayout cartCount={totalCount} onCartClick={showCartView}>
-            {}
-            <DetalleOrdenUsuario getOrderById={getOrderById} updateOrderStatus={updateOrderStatus} /> 
+          <UserLayout cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen}>
+            { }
+            <DetalleOrdenUsuario getOrderById={getOrderById} updateOrderStatus={updateOrderStatus} onLoginClick={showLoginScreen}/>
           </UserLayout>
-        }/>
+        } />
         <Route path="/usuario/datos" element={
-          <UserLayout cartCount={totalCount} onCartClick={showCartView}>
+          <UserLayout cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen}>
             <DatosUsuario />
           </UserLayout>
-        }/>
+        } />
         <Route path="/usuario/cambiar-contrasena" element={
-          <UserLayout cartCount={totalCount} onCartClick={showCartView}>
+          <UserLayout cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen}>
             <CambiarContrasena />
           </UserLayout>
-        }/>
+        } />
 
         <Route path="/admin/categorias" element={<ListadoCategoriasAdmin />} />
         <Route path="/admin/categorias/nueva" element={<AgregarCategoriaAdmin />} />
         <Route path="/admin/ordenes" element={
-            <ListaOrdenesAdmin allOrders={completedOrders} />
-        }/> 
-        
+          <ListaOrdenesAdmin allOrders={completedOrders} />
+        } />
+
         <Route path="*" element={
-          <UserLayout cartCount={totalCount} onCartClick={showCartView}>
+          <UserLayout cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen}>
             <div>
               <h2>Página no encontrada (404)</h2>
               <p><RouterLink to="/">Volver a la página de inicio</RouterLink></p>
             </div>
           </UserLayout>
-        }/>
+        } />
       </Routes>
     </div>
   );

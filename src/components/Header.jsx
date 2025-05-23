@@ -1,6 +1,26 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
-function Header({ cartCount, onCartClick }) {
+function Header({ cartCount, onCartClick, onLoginClick }) {
+  const [userName, setUserName] = useState(null);
+
+  useEffect(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn") === "true";
+    const user = JSON.parse(localStorage.getItem("registeredUser"));
+
+    if (isLoggedIn && user) {
+      setUserName(`${user.nombre} ${user.apellido}`);
+    } else {
+      setUserName(null);
+    }
+  }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("userEmail");
+    setUserName(null);
+    window.location.reload(); // Refresca para volver a estado sin sesión
+  };
+
   const SearchIcon = () => <span role="img" aria-label="Buscar">🔍</span>;
   const UserIcon = () => <span role="img" aria-label="Usuario">👤</span>;
   const ShoppingCartIcon = () => <span role="img" aria-label="Carrito">🛒</span>;
@@ -14,9 +34,9 @@ function Header({ cartCount, onCartClick }) {
             src="https://placehold.co/150x50/4A90E2/ffffff?text=MiTienda"
             alt="Logo MiTienda"
             className="logo-img"
-            onError={(e) => { 
-              e.target.onerror = null; 
-              e.target.src = "https://placehold.co/150x50/cccccc/000000?text=Logo+Error"; 
+            onError={(e) => {
+              e.target.onerror = null;
+              e.target.src = "https://placehold.co/150x50/cccccc/000000?text=Logo+Error";
             }}
           />
         </div>
@@ -33,13 +53,37 @@ function Header({ cartCount, onCartClick }) {
         </div>
 
         <div className="header-actions">
-          <div className="user-button" aria-label="Cuenta de usuario">
-            <div className="user-info">
-              <UserIcon />
-              <span className="user-label">Mi Cuenta</span>
-            </div>
-          </div>
-
+          {userName ? (
+            <>
+              <div style={{ color: "#fff", marginRight: "10px" }}>
+                <UserIcon /> {userName}
+              </div>
+              <button
+                onClick={handleLogout}
+                style={{
+                  background: "#ff4d4f",
+                  color: "#fff",
+                  padding: "5px 10px",
+                  borderRadius: "8px",
+                  border: "none",
+                  cursor: "pointer"
+                }}
+              >
+                Cerrar sesión
+              </button>
+            </>
+          ) : (
+            <button
+              className="action-button user-button"
+              onClick={onLoginClick}
+              aria-label="Cuenta de usuario"
+            >
+              <div className="user-info">
+                <UserIcon />
+                <span className="user-label">Mi Cuenta</span>
+              </div>
+            </button>
+          )}
           {/* Botón de carrito actualizado */}
           <button
             className="action-button cart-button"
