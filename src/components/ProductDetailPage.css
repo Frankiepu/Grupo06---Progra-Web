@@ -1,0 +1,194 @@
+/* ProductDetailPage.css - Estilos Simplificados con Fondo Pastel y Colores Originales para Elementos */
+
+/* Contenedor principal de la página de detalles del producto */
+.product-detail-page-container {
+  max-width: 1000px; 
+  margin: 30px auto;
+  padding: 25px; /* Un padding general */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #F0F8FF; /* AliceBlue - Un azul pastel muy, muy claro para el fondo */
+  /* O puedes usar el mismo fondo que HomePage si lo prefieres: background-color: #E6F3F7; */
+  color: #333; /* Color de texto principal */
+  border-radius: 8px; /* Opcional: bordes redondeados para el contenedor de la página */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Sombra muy sutil */
+}
+
+/* Contenedor para "Producto no encontrado" */
+.not-found-container {
+  text-align: center;
+  padding: 40px 20px;
+  min-height: 50vh;
+}
+.not-found-container h2 { font-size: 1.8rem; color: #c00; margin-bottom: 15px; }
+.not-found-container p { font-size: 1rem; color: #555; margin-bottom: 20px; }
+.link-to-home {
+  color: #007bff; text-decoration: none; font-weight: 500;
+  padding: 10px 15px; border: 1px solid #007bff; border-radius: 4px;
+}
+.link-to-home:hover { background-color: #007bff; color: white; }
+
+/* Botón "Volver" */
+.back-button {
+  display: inline-block;
+  margin-bottom: 25px;
+  padding: 8px 16px;
+  background-color: #e9ecef; /* Gris claro, como en muchos temas de UI */
+  color: #495057; /* Texto gris oscuro */
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+.back-button:hover { background-color: #dee2e6; }
+
+/* Contenido principal: imagen y detalles */
+.product-detail-main-content {
+  display: flex;
+  flex-direction: row; 
+  flex-wrap: wrap;    
+  gap: 30px;          
+  margin-bottom: 40px;
+  padding-bottom: 30px;
+  border-bottom: 1px solid #e9ecef; /* Separador un poco más visible */
+}
+
+/* Contenedor de la imagen */
+.product-detail-image-container {
+  flex: 1; 
+  min-width: 280px; /* Ajustado para que no sea demasiado pequeño */
+  max-width: 400px; /* Ajustado */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff; /* Fondo blanco para el contenedor de la imagen */
+  padding: 15px;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+}
+
+.product-detail-image {
+  width: 100%;
+  max-height: 380px; /* Ajustado */
+  object-fit: contain;
+  border-radius: 4px; /* Bordes más sutiles para la imagen en sí */
+}
+
+.product-detail-image-placeholder {
+  width: 100%;
+  height: 280px; /* Ajustado */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f9fa; /* Gris muy claro */
+  color: #6c757d; /* Texto gris */
+  font-size: 0.9rem;
+  text-align: center;
+  border: 1px dashed #adb5bd; /* Borde discontinuo gris */
+  border-radius: 4px;
+}
+
+/* Contenedor de la información del producto */
+.product-detail-info {
+  flex: 1.5; 
+  min-width: 300px;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-detail-name {
+  font-size: 1.8rem; /* Tamaño más estándar */
+  font-weight: bold;
+  color: #343a40; /* Texto oscuro */
+  margin-bottom: 10px;
+}
+
+.product-detail-category {
+  font-size: 0.8rem;
+  color: #6c757d; /* Gris para categoría */
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+.product-detail-presentation {
+  font-size: 0.9rem;
+  color: #495057; /* Gris oscuro */
+  margin-bottom: 15px;
+  font-style: normal; /* Quitamos itálica si no se desea */
+}
+
+.product-detail-description {
+  font-size: 0.95rem;
+  color: #495057;
+  line-height: 1.6;
+  margin-bottom: 20px;
+  flex-grow: 1; 
+}
+
+.product-detail-price-section {
+  margin-bottom: 20px;
+  display: flex; /* Para alinear elementos de precio si hay varios */
+  align-items: baseline;
+  gap: 10px;
+}
+
+.product-detail-price {
+  font-size: 1.5rem; /* Tamaño de precio más estándar */
+  font-weight: bold;
+  color: #007bff; /* Azul para el precio, como en tu HomePage original */
+}
+
+.product-detail-old-price {
+  font-size: 0.95rem;
+  color: #6c757d; /* Gris para precio tachado */
+  text-decoration: line-through;
+}
+
+.product-detail-discount-badge {
+  background-color: #dc3545; /* Rojo para descuento */
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.add-to-cart-detail-button {
+  padding: 10px 20px; /* Padding más estándar */
+  background-color: #007bff; /* Azul primario, como en tu HomePage original */
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.95rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  text-transform: uppercase;
+  align-self: flex-start; 
+}
+
+.add-to-cart-detail-button:hover {
+  background-color: #0056b3; /* Azul más oscuro */
+}
+
+/* Sección de Productos Similares */
+.similar-products-section {
+  margin-top: 30px; /* Margen ajustado */
+  padding-top: 20px;
+  border-top: 1px solid #dee2e6; /* Borde más estándar */
+}
+
+.similar-products-title {
+  font-size: 1.4rem; 
+  color: #343a40; /* Texto oscuro */
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.similar-products-grid { 
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); /* Tarjetas de similares más pequeñas */
+  gap: 15px; 
+}

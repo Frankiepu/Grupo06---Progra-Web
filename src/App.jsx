@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, Link as RouterLink } from 'react-router-dom';
+
 import UserLayout from './components/UserLayout';
 import HomePage from './components/HomePage';
 import Login from './components/Login';
@@ -7,6 +8,9 @@ import Registro from "./components/Registro";
 import Recuperar from './components/Recuperar';   
 import Carrito from './components/Carrito';
 import Checkout from './components/Checkout';
+import ProductDetailPage from './components/ProductDetailPage'; 
+
+
 import DetalleOrdenUsuario from './components/usuario/DetalleOrdenUsuario';
 import DatosUsuario from './components/usuario/DatosUsuario';
 import CambiarContrasena from './components/usuario/CambiarContrasena'; 
@@ -15,7 +19,6 @@ import ListadoCategoriasAdmin from './components/admin/ListadoCategoriasAdmin';
 import AgregarCategoriaAdmin from './components/admin/AgregarCategoriaAdmin';
 import ListaOrdenesAdmin from './components/admin/ListaOrdenesAdmin';
 
-
 const ProductsPagePlaceholder = ({ addToCart }) => (
   <div>
     <h2>Página de Productos</h2>
@@ -23,16 +26,10 @@ const ProductsPagePlaceholder = ({ addToCart }) => (
   </div>
 );
 
-
 function App() {
   const [cartItems, setCartItems] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
-
   const navigate = useNavigate();
-
-  useEffect(() => {
-    console.log("Órdenes completadas actualizadas:", completedOrders);
-  }, [completedOrders]);
 
   const handleAddToCart = (product) => {
     setCartItems(prevItems => {
@@ -71,7 +68,7 @@ function App() {
 
   const handleCompleteOrder = (orderDetailsFromCheckout) => {
     const newOrderId = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 5).toUpperCase()}`;
-    const newOrder = { /* ...datos de la orden... */ id: newOrderId, fecha: new Date().toLocaleDateString('es-ES'), fechaOriginal: new Date(), estado: 'Procesando', ...orderDetailsFromCheckout };
+    const newOrder = { id: newOrderId, fecha: new Date().toLocaleDateString('es-ES'), fechaOriginal: new Date(), estado: 'Procesando', ...orderDetailsFromCheckout };
     setCompletedOrders(prevOrders => [...prevOrders, newOrder]);
     setCartItems([]);
     navigate(`/usuario/orden/detalle/${newOrderId}`);
@@ -79,7 +76,6 @@ function App() {
   };
 
   const getOrderById = (orderId) => completedOrders.find(order => order.id === orderId);
-
   const updateOrderStatus = (orderId, newStatus) => {
     setCompletedOrders(prevOrders =>
       prevOrders.map(order =>
@@ -96,28 +92,28 @@ function App() {
   return (
     <div className="App">
       <Routes>
-        {/* Rutas de Usuario */}
         <Route path="/" element={<UserLayout {...userLayoutProps}><HomePage addToCart={handleAddToCart} /></UserLayout>}/>
         <Route path="/login" element={<UserLayout {...userLayoutProps}><Login onRegisterClick={goToRegister} onRecoverClick={goToRecover} onBack={goToHome} /></UserLayout>}/>
         <Route path="/registro" element={<UserLayout {...userLayoutProps}><Registro onLoginClick={goToLogin} /></UserLayout>}/>
         <Route path="/recuperar" element={<UserLayout {...userLayoutProps}><Recuperar onLoginClick={goToLogin} /></UserLayout>}/>
-        
-        {/* Ruta para Productos ahora usa el placeholder */}
-        <Route path="/productos" element={
-          <UserLayout {...userLayoutProps}>
-            <ProductsPagePlaceholder addToCart={handleAddToCart} /> 
-          </UserLayout>
-        }/>
-
+        <Route path="/productos" element={<UserLayout {...userLayoutProps}><ProductsPagePlaceholder addToCart={handleAddToCart} /></UserLayout>}/>
         <Route path="/carrito" element={<UserLayout {...userLayoutProps}><Carrito cartItems={cartItems} onBack={goToHome} onQuantityChange={changeQuantityInCart} onRemoveItem={removeFromCart} onCheckout={goToCheckout} /></UserLayout>}/>
         <Route path="/checkout" element={<UserLayout {...userLayoutProps}><Checkout cartItems={cartItems} onBackToCart={goToCart} onOrderComplete={handleCompleteOrder}/></UserLayout>}/>
         
+        <Route 
+          path="/producto/:productId" 
+          element={
+            <UserLayout {...userLayoutProps}>
+              <ProductDetailPage addToCart={handleAddToCart} />
+            </UserLayout>
+          }
+        />
+        
+        {/* (Tus rutas de /usuario y /admin se mantienen igual) */}
         <Route path="/usuario/ordenes" element={<UserLayout {...userLayoutProps}><ListaOrdenesUsuario orders={completedOrders} /></UserLayout>}/>
         <Route path="/usuario/orden/detalle/:orderId" element={<UserLayout {...userLayoutProps}><DetalleOrdenUsuario getOrderById={getOrderById} updateOrderStatus={updateOrderStatus} /></UserLayout>}/>
         <Route path="/usuario/datos" element={<UserLayout {...userLayoutProps}><DatosUsuario /></UserLayout>}/>
         <Route path="/usuario/cambiar-contrasena" element={<UserLayout {...userLayoutProps}><CambiarContrasena /></UserLayout>}/>
-
-        {/* Rutas de Admin */}
         <Route path="/admin/categorias" element={<ListadoCategoriasAdmin />} />
         <Route path="/admin/categorias/nueva" element={<AgregarCategoriaAdmin />} />
         <Route path="/admin/ordenes" element={<ListaOrdenesAdmin allOrders={completedOrders} updateOrderStatus={updateOrderStatus} />}/> 
