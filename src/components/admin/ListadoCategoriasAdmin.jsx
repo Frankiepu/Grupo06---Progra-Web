@@ -1,67 +1,48 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './ListadoCategoriasAdmin.css';
+import ModalCategoria from './ModalCategoria.jsx';
 
 const mockCategories = [
   { 
     id: 'CAT001', 
-    nombre: 'Electrónicos', 
-    descripcion: 'Smartphones, laptops, audífonos, smartwatches y más gadgets de última generación.' 
+    nombre: 'Frutas y verduras', 
+    descripcion: 'Variedad de frutas y verduras frescas de temporada.'
   },
   { 
     id: 'CAT002', 
-    nombre: 'Libros y Revistas', 
-    descripcion: 'Amplia variedad de géneros literarios, bestsellers, textos académicos y revistas de actualidad.' 
+    nombre: 'Carnes, aves y pescados', 
+    descripcion: 'Cortes frescos de carnes, aves de corral y pescados.'
   },
   { 
     id: 'CAT003', 
-    nombre: 'Moda y Accesorios', 
-    descripcion: 'Ropa para damas, caballeros y niños. Calzado y accesorios para complementar tu estilo.' 
+    nombre: 'Desayunos', 
+    descripcion: 'Productos para empezar el día con energía: cereales, panes, etc.' 
   },
   { 
     id: 'CAT004', 
-    nombre: 'Hogar y Muebles', 
-    descripcion: 'Artículos para decorar, organizar y equipar todas las áreas de tu casa con estilo y funcionalidad.' 
+    nombre: 'Lácteos y huevos', 
+    descripcion: 'Leche, yogures, quesos, mantequillas y huevos frescos.'
   },
   { 
     id: 'CAT005', 
-    nombre: 'Deportes y Aire Libre', 
-    descripcion: 'Equipamiento, ropa y accesorios para tus actividades deportivas y aventuras al aire libre.' 
+    nombre: 'Queso y fiambres', 
+    descripcion: 'Selección de quesos nacionales e importados y variedad de fiambres.'
   },
   { 
     id: 'CAT006', 
-    nombre: 'Salud y Belleza', 
-    descripcion: 'Productos para el cuidado personal, higiene, cosméticos, fragancias y bienestar. Incluye shampoos, cremas, etc.' 
+    nombre: 'Abarrotes', 
+    descripcion: 'Productos básicos de despensa: arroz, azúcar, aceite, conservas, etc.' 
   },
   { 
     id: 'CAT007', 
-    nombre: 'Abarrotes', 
-    descripcion: 'Alimentos básicos de despensa: arroz, azúcar, aceite, conservas, fideos, menestras, leche, avena, café y más.' 
+    nombre: 'Panadería', 
+    descripcion: 'Pan fresco del día, pasteles, galletas y otros productos horneados.'
   },
   { 
     id: 'CAT008', 
-    nombre: 'Frutas y Verduras', 
-    descripcion: 'Selección fresca de frutas de temporada y verduras para una alimentación saludable y balanceada.' 
-  },
-  { 
-    id: 'CAT009', 
-    nombre: 'Carnes, Aves y Pescado', 
-    descripcion: 'Cortes frescos de carne de res, cerdo, pollo entero y en presas, pescados y mariscos.' 
-  },
-  { 
-    id: 'CAT010', 
-    nombre: 'Lácteos y Embutidos', 
-    descripcion: 'Leche, quesos, yogures, mantequillas, jamones, salchichas y otros productos refrigerados.' 
-  },
-  { 
-    id: 'CAT011', 
-    nombre: 'Bebidas', 
-    descripcion: 'Gaseosas, jugos, aguas, cervezas, vinos, licores y otras bebidas para toda ocasión.' 
-  },
-  { 
-    id: 'CAT012', 
-    nombre: 'Limpieza del Hogar', 
-    descripcion: 'Detergentes, desinfectantes, lavavajillas, y todo lo necesario para mantener tu hogar impecable.' 
+    nombre: 'Congelados', 
+    descripcion: 'Productos congelados listos para preparar: verduras, carnes, helados.'
   }
 ];
 
@@ -71,10 +52,10 @@ function ListadoCategoriasAdmin() {
   const [filtroId, setFiltroId] = useState('');
   const [filtroNombre, setFiltroNombre] = useState('');
   const [filtroDescripcion, setFiltroDescripcion] = useState('');
+  const [mostrarModalAgregar, setMostrarModalAgregar] = useState(false);
 
   useEffect(() => {
     setCategorias(mockCategories);
-    setCategoriasFiltradas(mockCategories);
   }, []);
 
   useEffect(() => {
@@ -97,6 +78,38 @@ function ListadoCategoriasAdmin() {
     setFiltroDescripcion('');
   };
 
+  const handleAbrirModalAgregar = () => {
+    setMostrarModalAgregar(true);
+  };
+
+  const handleCerrarModalAgregar = () => {
+    setMostrarModalAgregar(false);
+  };
+
+  const handleGuardarNuevaCategoria = (nuevaCategoriaData) => {
+    const maxId = categorias.reduce((max, cat) => {
+        const currentIdNum = parseInt(cat.id.replace('CAT', ''), 10);
+        return currentIdNum > max ? currentIdNum : max;
+    }, 0);
+    const nuevoIdNum = maxId + 1;
+    const nuevoId = `CAT${String(nuevoIdNum).padStart(3, '0')}`;
+    
+    const categoriaConId = { 
+        id: nuevoId,
+        nombre: nuevaCategoriaData.nombre, 
+        descripcion: nuevaCategoriaData.descripcion 
+    };
+
+    setCategorias(prevCategorias => [...prevCategorias, categoriaConId]);
+    setMostrarModalAgregar(false);
+  };
+
+  const handleEliminarCategoria = (idCategoriaAEliminar) => {
+    if (window.confirm(`¿Estás seguro de que deseas eliminar la categoría con ID ${idCategoriaAEliminar}?`)) {
+      setCategorias(prevCategorias => prevCategorias.filter(cat => cat.id !== idCategoriaAEliminar));
+    }
+  };
+
   return (
     <div className="admin-page-container">
       <header className="admin-navbar-standalone">
@@ -104,7 +117,7 @@ function ListadoCategoriasAdmin() {
         <input className="admin-search-standalone" type="text" placeholder="Buscar en admin..." />
         <div className="admin-right-buttons-standalone">
           <button className="admin-panel-btn-standalone">Panel Admin</button>
-          <div className="admin-user-icon-standalone">👤 Admin</div>
+          <div className="admin-user-icon-standalone">🧑‍💼 Admin</div>
         </div>
       </header>
 
@@ -120,9 +133,9 @@ function ListadoCategoriasAdmin() {
         <div className="listado-categorias-content">
           <div className="admin-page-header">
             <h1 className="admin-page-title">Listado de Categorías</h1>
-            <Link to="/admin/categorias/nueva" className="admin-button-primary">
-              ➕ Nueva Categoría
-            </Link>
+            <button onClick={handleAbrirModalAgregar} className="admin-button-primary">
+              ⊕ Nueva Categoría
+            </button>
           </div>
 
           <div className="admin-filters-panel">
@@ -153,6 +166,13 @@ function ListadoCategoriasAdmin() {
                         <Link to={`/admin/categorias/detalle/${categoria.id}`} className="admin-button-link">
                           Ver Detalles
                         </Link>
+                        <button 
+                          onClick={() => handleEliminarCategoria(categoria.id)} 
+                          className="admin-button-link"
+                          style={{ color: '#dc3545', marginLeft: '10px', background: 'none', border: 'none', padding: '5px 0', cursor: 'pointer', fontSize: '0.9rem', fontFamily: "'Inter', sans-serif" }}
+                        >
+                          Eliminar
+                        </button>
                       </td>
                     </tr>
                   ))
@@ -164,6 +184,12 @@ function ListadoCategoriasAdmin() {
           </div>
         </div>
       </main>
+      {mostrarModalAgregar && (
+        <ModalCategoria
+          onClose={handleCerrarModalAgregar}
+          onSave={handleGuardarNuevaCategoria}
+        />
+      )}
     </div>
   );
 }
