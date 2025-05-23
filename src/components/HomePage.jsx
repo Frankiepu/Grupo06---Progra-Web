@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import ProductCard from './ProductCard';
-import CategoryCard from './CategoryCard';
-import './HomePage.css';
+import ProductCard from './ProductCard'; // Asegúrate que las rutas y el componente estén correctos
+import CategoryCard from './CategoryCard'; // Asegúrate que las rutas y el componente estén correctos
+import './HomePage.css'; // Importamos los estilos que crearemos
 
 // Importaciones de imágenes (asegúrate que las rutas sean correctas)
 import imgpollo from '../assets/polloentero.png';
 import imgzanahoria from '../assets/zanahoria.png';
 import imgazucar from '../assets/azucar.png';
 import imgavena from '../assets/avena.png';
-import imgArroz from '../assets/arroz.png'; // Nueva imagen de ejemplo
-import imgLeche from '../assets/lechegloria.png'; // Nueva imagen de ejemplo
-import imgShampoo from '../assets/shampoo.png'; // Nueva imagen de ejemplo
+import imgArroz from '../assets/arroz.png'; 
+import imgLeche from '../assets/lechegloria.png'; 
+// import imgShampoo from '../assets/shampoo.png'; // Descomenta si tienes esta imagen
 
 
 import imgfrutas from '../assets/frutas.png';
@@ -18,14 +18,14 @@ import imgcarnes from '../assets/carnes.png';
 import imgabarrotes from '../assets/abarrotes.png';
 
 import bannerPrincipal from '../assets/bannerpromocional.png';
-// Imágenes para el carrusel del banner
+
 const bannerImages = [
   bannerPrincipal,
-  "https://placehold.co/1200x400/3498db/ffffff?text=Anuncio+Supermercado+2",
-  "https://placehold.co/1200x400/2ecc71/ffffff?text=Ofertas+Especiales+3",
+  "https://placehold.co/1200x400/A8D8C0/FFFFFF?text=Ofertas+Frescas+de+Verano", // Tono pastel verde menta
+  "https://placehold.co/1200x400/FFDAB9/8B4513?text=Descuentos+Especiales", // Tono pastel melocotón
+  "https://placehold.co/1200x400/E6E6FA/483D8B?text=Novedades+del+Mes", // Tono pastel lavanda
 ];
 
-// PRODUCTOS DESTACADOS - Ahora con más ejemplos
 const featuredProducts = [
   {
     id: 1,
@@ -67,7 +67,7 @@ const featuredProducts = [
     id: 5,
     name: 'Arroz Costeño Graneadito',
     price: 'S/ 4.50 x KG',
-    imageUrl: imgArroz, // Placeholder, reemplaza con tu imagen
+    imageUrl: imgArroz,
     oldPrice: null,
     discount: null,
     category: 'Abarrotes',
@@ -76,51 +76,12 @@ const featuredProducts = [
     id: 6,
     name: 'Leche Gloria Evaporada Entera',
     price: 'S/ 3.80 un',
-    imageUrl: imgLeche, // Placeholder
+    imageUrl: imgLeche,
     oldPrice: 'S/ 4.20',
     discount: '10%',
     category: 'Lácteos',
   },
-  // --- Sección de productos comentados para agregar a futuro ---
-  /*
-  {
-    id: 7,
-    name: 'Shampoo Head & Shoulders',
-    price: 'S/ 18.90 un',
-    imageUrl: imgShampoo, // Placeholder
-    oldPrice: null,
-    discount: null,
-    category: 'Cuidado Personal',
-  },
-  /*
-  {
-    id: 8,
-    name: 'Nuevo Producto Ejemplo 8',
-    price: 'S/ X.XX',
-    imageUrl: 'https://placehold.co/300x300/ffcc00/ffffff?text=Producto+8', // Placeholder
-    oldPrice: null,
-    discount: null,
-    category: 'Nueva Categoría',
-  },
-  {
-    id: 9,
-    name: 'Nuevo Producto Ejemplo 9',
-    price: 'S/ Y.YY',
-    imageUrl: 'https://placehold.co/300x300/3399ff/ffffff?text=Producto+9', // Placeholder
-    oldPrice: 'S/ Z.ZZ',
-    discount: '15%',
-    category: 'Otra Categoría',
-  },
-  {
-    id: 10,
-    name: 'Nuevo Producto Ejemplo 10',
-    price: 'S/ A.AA',
-    imageUrl: 'https://placehold.co/300x300/ff6666/ffffff?text=Producto+10', // Placeholder
-    oldPrice: null,
-    discount: null,
-    category: 'Promociones',
-  },
-  */
+  // Puedes agregar más productos aquí si es necesario
 ];
 
 const categories = [
@@ -129,7 +90,7 @@ const categories = [
   { id: 'cat3', name: 'Abarrotes', imageUrl: imgabarrotes },
 ];
 
-const PRODUCTS_PER_PAGE = 3; // Número de productos a mostrar por página/vista
+const PRODUCTS_PER_PAGE = 3; 
 
 function HomePage({ addToCart }) {
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
@@ -138,11 +99,10 @@ function HomePage({ addToCart }) {
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentBannerIndex((prevIndex) => (prevIndex + 1) % bannerImages.length);
-    }, 3000);
+    }, 4000); // Aumentado el tiempo del carrusel de banner
     return () => clearInterval(timer);
   }, []);
 
-  // Lógica para paginación de productos destacados
   const totalProductPages = Math.ceil(featuredProducts.length / PRODUCTS_PER_PAGE);
 
   const handleNextProducts = () => {
@@ -175,17 +135,18 @@ function HomePage({ addToCart }) {
           <button
             className="arrow-button prev-arrow"
             onClick={handlePrevProducts}
-            disabled={featuredProducts.length <= PRODUCTS_PER_PAGE} // Deshabilitar si no hay suficientes productos para paginar
+            disabled={featuredProducts.length <= PRODUCTS_PER_PAGE}
           >
-            &lt; {/* Flecha izquierda */}
+            &lt;
           </button>
-          <h2 className="section-title">Productos Destacados</h2>
+          {/* Título de sección con span interno para estilos de subrayado */}
+          <h2 className="section-title"><span>Productos Destacados</span></h2>
           <button
             className="arrow-button next-arrow"
             onClick={handleNextProducts}
-            disabled={featuredProducts.length <= PRODUCTS_PER_PAGE} // Deshabilitar si no hay suficientes productos para paginar
+            disabled={featuredProducts.length <= PRODUCTS_PER_PAGE}
           >
-            &gt; {/* Flecha derecha */}
+            &gt;
           </button>
         </div>
         <div className="products-grid">
@@ -200,7 +161,8 @@ function HomePage({ addToCart }) {
       </section>
 
       <section className="categories-section">
-        <h2 className="section-title">Explorar Categorías</h2>
+         {/* Título de sección con span interno para estilos de subrayado */}
+        <h2 className="section-title"><span>Explorar Categorías</span></h2>
         <div className="categories-grid">
           {categories.map(category => (
             <CategoryCard key={category.id} category={category} />

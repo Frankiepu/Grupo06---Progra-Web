@@ -1,41 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, Link as RouterLink } from 'react-router-dom';
-
-// --- IMPORTACIONES DE COMPONENTES ---
-// App.jsx se encuentra en la carpeta src/
-// Verifica CUIDADOSAMENTE que cada una de estas rutas coincida con la ubicación
-// y el nombre exacto (mayúsculas/minúsculas) de tus archivos .jsx
-
-// Layout Principal (asumiendo en src/components/UserLayout.jsx)
 import UserLayout from './components/UserLayout';
-
-// Componentes Generales (asumiendo en src/components/)
 import HomePage from './components/HomePage';
 import Login from './components/Login';
 import Registro from "./components/Registro"; 
 import Recuperar from './components/Recuperar';   
 import Carrito from './components/Carrito';
 import Checkout from './components/Checkout';
-// ProductsPage ya no se importa aquí, se define un placeholder abajo
-
-// Páginas de Usuario (asumiendo en src/components/usuario/)
 import DetalleOrdenUsuario from './components/usuario/DetalleOrdenUsuario';
 import DatosUsuario from './components/usuario/DatosUsuario';
 import CambiarContrasena from './components/usuario/CambiarContrasena'; 
 import ListaOrdenesUsuario from './components/usuario/ListaOrdenesUsuario'; 
-
-// Páginas de Admin (asumiendo en src/components/admin/)
 import ListadoCategoriasAdmin from './components/admin/ListadoCategoriasAdmin';
 import AgregarCategoriaAdmin from './components/admin/AgregarCategoriaAdmin';
 import ListaOrdenesAdmin from './components/admin/ListaOrdenesAdmin';
 
-// Placeholder para ProductsPage si aún no tienes el archivo
-// Cuando tengas tu componente ProductsPage.jsx, impórtalo arriba y úsalo en la ruta /productos
+
 const ProductsPagePlaceholder = ({ addToCart }) => (
   <div>
     <h2>Página de Productos</h2>
     <p>Contenido de productos o resultados de búsqueda irá aquí.</p>
-    {/* Ejemplo de cómo podrías usar addToCart si fuera necesario */}
   </div>
 );
 
@@ -43,7 +27,6 @@ const ProductsPagePlaceholder = ({ addToCart }) => (
 function App() {
   const [cartItems, setCartItems] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
-  // const [user, setUser] = useState(null); 
 
   const navigate = useNavigate();
 
@@ -108,9 +91,6 @@ function App() {
   const userLayoutProps = {
     cartCount: totalCartItemCount,
     onCartClick: goToCart,
-    // onLoginClick: goToLogin, 
-    // user: user,
-    // onLogout: handleLogout,
   };
 
   return (
