@@ -1,88 +1,101 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, Link as RouterLink } from 'react-router-dom';
 
+// --- IMPORTACIONES DE COMPONENTES ---
+// App.jsx se encuentra en la carpeta src/
+// Verifica CUIDADOSAMENTE que cada una de estas rutas coincida con la ubicación
+// y el nombre exacto (mayúsculas/minúsculas) de tus archivos .jsx
+
+// Layout Principal (asumiendo en src/components/UserLayout.jsx)
 import UserLayout from './components/UserLayout';
 
+// Componentes Generales (asumiendo en src/components/)
 import HomePage from './components/HomePage';
 import Login from './components/Login';
-import Registro from "./components/Registro";
-import Recuperar from './components/Recuperar';
+import Registro from "./components/Registro"; 
+import Recuperar from './components/Recuperar';   
+import Carrito from './components/Carrito';
+import Checkout from './components/Checkout';
+// ProductsPage ya no se importa aquí, se define un placeholder abajo
+
+// Páginas de Usuario (asumiendo en src/components/usuario/)
 import DetalleOrdenUsuario from './components/usuario/DetalleOrdenUsuario';
 import DatosUsuario from './components/usuario/DatosUsuario';
-import CambiarContrasena from './components/usuario/CambiarContrasena';
-import ListaOrdenesUsuario from './components/usuario/ListaOrdenesUsuario';
+import CambiarContrasena from './components/usuario/CambiarContrasena'; 
+import ListaOrdenesUsuario from './components/usuario/ListaOrdenesUsuario'; 
 
+// Páginas de Admin (asumiendo en src/components/admin/)
 import ListadoCategoriasAdmin from './components/admin/ListadoCategoriasAdmin';
 import AgregarCategoriaAdmin from './components/admin/AgregarCategoriaAdmin';
 import ListaOrdenesAdmin from './components/admin/ListaOrdenesAdmin';
 
-import Carrito from './components/Carrito';
-import Checkout from './components/Checkout';
-import Header from './components/Header';
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
+// Placeholder para ProductsPage si aún no tienes el archivo
+// Cuando tengas tu componente ProductsPage.jsx, impórtalo arriba y úsalo en la ruta /productos
+const ProductsPagePlaceholder = ({ addToCart }) => (
+  <div>
+    <h2>Página de Productos</h2>
+    <p>Contenido de productos o resultados de búsqueda irá aquí.</p>
+    {/* Ejemplo de cómo podrías usar addToCart si fuera necesario */}
+  </div>
+);
+
 
 function App() {
   const [cartItems, setCartItems] = useState([]);
-  const [viewCart, setViewCart] = useState(false);
-  const [viewCheckout, setViewCheckout] = useState(false);
   const [completedOrders, setCompletedOrders] = useState([]);
-  const [showLogin, setShowLogin] = useState(false);
-  const [showRegister, setShowRegister] = useState(false);
-  const [showRecover, setShowRecover] = useState(false);
+  // const [user, setUser] = useState(null); 
 
   const navigate = useNavigate();
 
   useEffect(() => {
-    console.log("Órdenes completadas actualizadas en App.jsx:", completedOrders);
+    console.log("Órdenes completadas actualizadas:", completedOrders);
   }, [completedOrders]);
 
   const handleAddToCart = (product) => {
-    setCartItems(prev => {
-      const exists = prev.find(item => item.id === product.id);
-      if (exists) {
-        return prev.map(item => item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item);
+    setCartItems(prevItems => {
+      const existingItem = prevItems.find(item => item.id === product.id);
+      if (existingItem) {
+        return prevItems.map(item =>
+          item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+        );
       }
-      return [...prev, { ...product, quantity: 1 }];
+      return [...prevItems, { ...product, quantity: 1 }];
     });
   };
 
-  const showHome = () => { setViewCart(false); setViewCheckout(false); setShowLogin(false); setShowRegister(false); setShowRecover(false); navigate('/'); };
-  const showCartView = () => { setViewCheckout(false); setShowLogin(false); setShowRegister(false); setShowRecover(false); setViewCart(true); };
-  const showCheckoutView = () => { setViewCart(false); setViewCheckout(true); };
-  const showLoginScreen = () => { setViewCart(false); setViewCheckout(false); setShowRegister(false); setShowRecover(false); setShowLogin(true); };
-  const showRegisterScreen = () => { setViewCart(false); setViewCheckout(false); setShowLogin(false); setShowRecover(false); setShowRegister(true); };
-  const showRecoverScreen = () => { setViewCart(false); setViewCheckout(false); setShowLogin(false); setShowRegister(false); setShowRecover(true); };
+  const goToHome = () => navigate('/');
+  const goToCart = () => navigate('/carrito');
+  const goToCheckout = () => navigate('/checkout');
+  const goToLogin = () => navigate('/login');
+  const goToRegister = () => navigate('/registro');
+  const goToRecover = () => navigate('/recuperar');
+  const goToProducts = () => navigate('/productos');
 
-  const changeQuantity = (productId, delta) => {
-    setCartItems(prev => prev.map(item => item.id === productId ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item));
+
+  const changeQuantityInCart = (productId, delta) => {
+    setCartItems(prevItems =>
+      prevItems.map(item =>
+        item.id === productId ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item
+      ).filter(item => item.quantity > 0)
+    );
   };
-  const removeItem = (productId) => {
-    setCartItems(prev => prev.filter(item => item.id !== productId));
+
+  const removeFromCart = (productId) => {
+    setCartItems(prevItems => prevItems.filter(item => item.id !== productId));
   };
-  const totalCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+
+  const totalCartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const handleCompleteOrder = (orderDetailsFromCheckout) => {
     const newOrderId = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 5).toUpperCase()}`;
-    const newOrder = {
-      ...orderDetailsFromCheckout,
-      id: newOrderId,
-      fecha: new Date().toLocaleDateString('es-ES', { day: 'numeric', month: 'long', year: 'numeric' }),
-      fechaOriginal: new Date(),
-      estado: 'Procesando',
-    };
+    const newOrder = { /* ...datos de la orden... */ id: newOrderId, fecha: new Date().toLocaleDateString('es-ES'), fechaOriginal: new Date(), estado: 'Procesando', ...orderDetailsFromCheckout };
     setCompletedOrders(prevOrders => [...prevOrders, newOrder]);
     setCartItems([]);
-    setViewCart(false);
-    setViewCheckout(false);
     navigate(`/usuario/orden/detalle/${newOrderId}`);
     return newOrder;
   };
 
-  const getOrderById = (orderId) => {
-    return completedOrders.find(order => order.id === orderId);
-  };
-
+  const getOrderById = (orderId) => completedOrders.find(order => order.id === orderId);
 
   const updateOrderStatus = (orderId, newStatus) => {
     setCompletedOrders(prevOrders =>
@@ -90,111 +103,59 @@ function App() {
         order.id === orderId ? { ...order, estado: newStatus } : order
       )
     );
-    console.log(`Estado de orden ${orderId} actualizado a ${newStatus} en App.jsx`);
   };
-  // Mostrar pantallas modales (sin rutas)
-  if (showRecover || showRegister || showLogin) {
-    return (
-      <div className="App">
-        <Header cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen} />
-        <Navbar />
-        <main className="main-content container">
-          {showRecover ? (
-            <Recuperar onBack={showHome} />
-          ) : showRegister ? (
-            <Registro onBack={showLoginScreen} />
-          ) : (
-            <Login
-              onBack={showHome}
-              onRegisterClick={showRegisterScreen}
-              onRecoverClick={showRecoverScreen}
-            />
-          )}
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-  if (viewCheckout) {
-    return (
-      <div className="App">
-        <Header cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen} />
-        <Navbar />
-        <main className="main-content container">
-          <Checkout
-            cartItems={cartItems}
-            onBackToCart={showCartView}
-            onOrderComplete={handleCompleteOrder}
-          />
-        </main>
-        <Footer />
-      </div>
-    );
-  }
-  if (viewCart) {
-    return (
-      <div className="App">
-        <Header cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen}/>
-        <Navbar />
-        <main className="main-content container">
-          <Carrito cartItems={cartItems} onBack={showHome} onQuantityChange={changeQuantity} onRemoveItem={removeItem} onCheckout={showCheckoutView} />
-        </main>
-        <Footer />
-      </div>
-    );
-  }
+  
+  const userLayoutProps = {
+    cartCount: totalCartItemCount,
+    onCartClick: goToCart,
+    // onLoginClick: goToLogin, 
+    // user: user,
+    // onLogout: handleLogout,
+  };
 
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={
-          <UserLayout cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen}>
-            <HomePage addToCart={handleAddToCart} />
+        {/* Rutas de Usuario */}
+        <Route path="/" element={<UserLayout {...userLayoutProps}><HomePage addToCart={handleAddToCart} /></UserLayout>}/>
+        <Route path="/login" element={<UserLayout {...userLayoutProps}><Login onRegisterClick={goToRegister} onRecoverClick={goToRecover} onBack={goToHome} /></UserLayout>}/>
+        <Route path="/registro" element={<UserLayout {...userLayoutProps}><Registro onLoginClick={goToLogin} /></UserLayout>}/>
+        <Route path="/recuperar" element={<UserLayout {...userLayoutProps}><Recuperar onLoginClick={goToLogin} /></UserLayout>}/>
+        
+        {/* Ruta para Productos ahora usa el placeholder */}
+        <Route path="/productos" element={
+          <UserLayout {...userLayoutProps}>
+            <ProductsPagePlaceholder addToCart={handleAddToCart} /> 
           </UserLayout>
-        } />
-  
-        <Route path="/usuario/ordenes" element={
-          <UserLayout cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen}>
-            <ListaOrdenesUsuario orders={completedOrders} />
-          </UserLayout>
-        } />
-        <Route path="/usuario/orden/detalle/:orderId" element={
-          <UserLayout cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen}>
-            { }
-            <DetalleOrdenUsuario getOrderById={getOrderById} updateOrderStatus={updateOrderStatus} onLoginClick={showLoginScreen}/>
-          </UserLayout>
-        } />
-        <Route path="/usuario/datos" element={
-          <UserLayout cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen}>
-            <DatosUsuario />
-          </UserLayout>
-        } />
-        <Route path="/usuario/cambiar-contrasena" element={
-          <UserLayout cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen}>
-            <CambiarContrasena />
-          </UserLayout>
-        } />
+        }/>
 
+        <Route path="/carrito" element={<UserLayout {...userLayoutProps}><Carrito cartItems={cartItems} onBack={goToHome} onQuantityChange={changeQuantityInCart} onRemoveItem={removeFromCart} onCheckout={goToCheckout} /></UserLayout>}/>
+        <Route path="/checkout" element={<UserLayout {...userLayoutProps}><Checkout cartItems={cartItems} onBackToCart={goToCart} onOrderComplete={handleCompleteOrder}/></UserLayout>}/>
+        
+        <Route path="/usuario/ordenes" element={<UserLayout {...userLayoutProps}><ListaOrdenesUsuario orders={completedOrders} /></UserLayout>}/>
+        <Route path="/usuario/orden/detalle/:orderId" element={<UserLayout {...userLayoutProps}><DetalleOrdenUsuario getOrderById={getOrderById} updateOrderStatus={updateOrderStatus} /></UserLayout>}/>
+        <Route path="/usuario/datos" element={<UserLayout {...userLayoutProps}><DatosUsuario /></UserLayout>}/>
+        <Route path="/usuario/cambiar-contrasena" element={<UserLayout {...userLayoutProps}><CambiarContrasena /></UserLayout>}/>
+
+        {/* Rutas de Admin */}
         <Route path="/admin/categorias" element={<ListadoCategoriasAdmin />} />
         <Route path="/admin/categorias/nueva" element={<AgregarCategoriaAdmin />} />
-        <Route path="/admin/ordenes" element={
-          <ListaOrdenesAdmin allOrders={completedOrders} />
-        } />
-
+        <Route path="/admin/ordenes" element={<ListaOrdenesAdmin allOrders={completedOrders} updateOrderStatus={updateOrderStatus} />}/> 
+        
         <Route path="*" element={
-          <UserLayout cartCount={totalCount} onCartClick={showCartView} onLoginClick={showLoginScreen}>
-            <div>
+          <UserLayout {...userLayoutProps}>
+            <div style={{ textAlign: 'center', padding: '50px' }}>
               <h2>Página no encontrada (404)</h2>
-              <p><RouterLink to="/">Volver a la página de inicio</RouterLink></p>
+              <p>Lo sentimos, la página que buscas no existe.</p>
+              <RouterLink to="/" style={{ color: '#007bff', textDecoration: 'underline' }}>
+                Volver a la página de inicio
+              </RouterLink>
             </div>
           </UserLayout>
-        } />
+        }/>
       </Routes>
     </div>
   );
 }
 
 export default App;
-
-
-
