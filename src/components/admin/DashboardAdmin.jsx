@@ -45,7 +45,7 @@ function AdminDashboard() {
           <div className="panel-left table-card">
             <div className="tabla-header">
               <h2>Usuarios registrados</h2>
-              <button className="btn">👥 Ver todos los usuarios</button>
+              <button className="btn" onClick={() => window.location.href = '/admin/ListaUsuario'}>👥 Ver todos los usuarios</button>
             </div>
             <table>
               <thead>

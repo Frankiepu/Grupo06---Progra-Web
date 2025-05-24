@@ -21,6 +21,8 @@ import ListaOrdenes2 from './components/admin/ListaOrdenes2';
 import DashboardAdmin from './components/admin/DashboardAdmin';
 import AgregarproductoAdmi from './components/admin/AgregarproductoAdmi';
 import ListaProductos from './components/admin/ListaProductos';
+import ListaUsuarios from './components/admin/ListaUsuario';
+import DetalleUsuario from './components/admin/DetalleUsuario';
 
 const ProductsPagePlaceholder = ({ addToCart }) => (
   <div>
@@ -123,6 +125,9 @@ function App() {
         <Route path="/admin/productos/nuevo" element={<AgregarproductoAdmi />} />
         <Route path="/admin/productos/editar" element={<AgregarproductoAdmi />} />
         <Route path="/admin/ordenes2" element={<ListaOrdenes2 />} /> 
+        <Route path="/admin/usuarios/:id" element={<DetalleUsuario />} />
+        <Route path="/admin/ListaUsuario" element={<ListaUsuarios />} /> 
+
 
         <Route path="*" element={
           <UserLayout {...userLayoutProps}>
