@@ -41,7 +41,7 @@ function Register() {
         }
 
         // Simulación de registro guardando en localStorage
-        const user = { nombre, apellido, email, dni, password };
+        const user = { nombre, apellido, email, dni, password, role: "user" };
         localStorage.setItem("registeredUser", JSON.stringify(user));
 
         setMessage("Usuario registrado con éxito");

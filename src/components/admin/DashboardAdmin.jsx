@@ -16,7 +16,11 @@ const ordenesEjemplo = [
 
 function AdminDashboard() {
   const [usuarioSeleccionado, setUsuarioSeleccionado] = useState(usuariosEjemplo[0]);
-
+  const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  if (!currentUser || currentUser.role !== "admin") {
+    window.location.href = "/";
+    return null;
+  }
   return (
     <>
       <LayoutAdmin />

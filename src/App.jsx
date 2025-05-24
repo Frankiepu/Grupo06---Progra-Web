@@ -117,6 +117,7 @@ function App() {
         <Route path="/usuario/orden/detalle/:orderId" element={<UserLayout {...userLayoutProps}><DetalleOrdenUsuario getOrderById={getOrderById} updateOrderStatus={updateOrderStatus} /></UserLayout>}/>
         <Route path="/usuario/datos" element={<UserLayout {...userLayoutProps}><DatosUsuario /></UserLayout>}/>
         <Route path="/usuario/cambiar-contrasena" element={<UserLayout {...userLayoutProps}><CambiarContrasena /></UserLayout>}/>
+        <Route path="/admin" element={<DashboardAdmin />} />
         <Route path="/admin/categorias" element={<ListadoCategoriasAdmin />} />
         <Route path="/admin/categorias/nueva" element={<AgregarCategoriaAdmin />} />
         <Route path="/admin/ordenes" element={<ListaOrdenesAdmin allOrders={completedOrders} updateOrderStatus={updateOrderStatus} />}/> 

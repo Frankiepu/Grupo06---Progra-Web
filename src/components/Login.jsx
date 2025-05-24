@@ -7,37 +7,51 @@ function Login({ onBack, onRegisterClick, onRecoverClick }) {
   const [message, setMessage] = useState('');
   const [messageType, setMessageType] = useState('');
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+const handleLogin = (e) => {
+  e.preventDefault();
 
-    // LOCAL STORAGE : de aca se obtiene el usuario que guardamos en el localstorage pero primero TENEMOS que 
-    // registrarnos para que se guarde
-    const storedUser = JSON.parse(localStorage.getItem("registeredUser"));
+  const emailInput = email.trim().toLowerCase();
 
-    if (!storedUser) {
-      setMessage("No hay ningún usuario registrado.");
-      setMessageType("error");
-      return;
-    }
+  // Verificar si es admin
+  if (emailInput === "admin" && password === "admin123") {
+    const adminUser = { email: "admin", role: "admin" };
+    localStorage.setItem("currentUser", JSON.stringify(adminUser));
+    setMessage("Inicio de sesión como administrador");
+    setMessageType("success");
 
-    if (email === storedUser.email && password === storedUser.password) {
-      setMessage("Inicio de sesión exitoso");
-      setMessageType("success");
+    setTimeout(() => {
+      window.location.href = "/admin";
+    }, 1000);
+    return;
+  }
 
-      // Guardar sesión
-      localStorage.setItem("userEmail", email);
-      localStorage.setItem("isLoggedIn", "true");
+  // Verificar usuario registrado
+  const storedUser = JSON.parse(localStorage.getItem("registeredUser"));
 
-      // Regresar al inicio después de 1 segundo
-      setTimeout(() => {
-        window.location.href = "/";  // esto oculta el login y vuelve a la vista principal
-      }, 1000);
+  if (!storedUser) {
+    setMessage("No hay ningún usuario registrado.");
+    setMessageType("error");
+    return;
+  }
 
-    } else {
-      setMessage("Correo o contraseña incorrectos");
-      setMessageType("error");
-    }
-  };
+  if (
+    emailInput === storedUser.email.toLowerCase() &&
+    password === storedUser.password
+  ) {
+    const currentUser = { ...storedUser, role: "user" };
+    localStorage.setItem("currentUser", JSON.stringify(currentUser));
+    setMessage("Inicio de sesión exitoso");
+    setMessageType("success");
+
+    setTimeout(() => {
+      window.location.href = "/";
+    }, 1000);
+  } else {
+    setMessage("Correo o contraseña incorrectos");
+    setMessageType("error");
+  }
+};
+
   return (
     <div className="login-page">
       <div className="login-box">
@@ -58,7 +72,7 @@ function Login({ onBack, onRegisterClick, onRecoverClick }) {
         <form onSubmit={handleLogin}>
           <label htmlFor="email">Correo</label>
           <input
-            type="email"
+            type="text"
             id="email"
             name="email"
             placeholder="usuario@gmail.com"
