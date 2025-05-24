@@ -2,48 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './ListadoCategoriasAdmin.css';
 import ModalCategoria from './ModalCategoria.jsx';
+import LayoutAdmin from './LayoutAdmin.jsx';
 
 const mockCategories = [
-  { 
-    id: 'CAT001', 
-    nombre: 'Frutas y verduras', 
-    descripcion: 'Variedad de frutas y verduras frescas de temporada.'
-  },
-  { 
-    id: 'CAT002', 
-    nombre: 'Carnes, aves y pescados', 
-    descripcion: 'Cortes frescos de carnes, aves de corral y pescados.'
-  },
-  { 
-    id: 'CAT003', 
-    nombre: 'Desayunos', 
-    descripcion: 'Productos para empezar el día con energía: cereales, panes, etc.' 
-  },
-  { 
-    id: 'CAT004', 
-    nombre: 'Lácteos y huevos', 
-    descripcion: 'Leche, yogures, quesos, mantequillas y huevos frescos.'
-  },
-  { 
-    id: 'CAT005', 
-    nombre: 'Queso y fiambres', 
-    descripcion: 'Selección de quesos nacionales e importados y variedad de fiambres.'
-  },
-  { 
-    id: 'CAT006', 
-    nombre: 'Abarrotes', 
-    descripcion: 'Productos básicos de despensa: arroz, azúcar, aceite, conservas, etc.' 
-  },
-  { 
-    id: 'CAT007', 
-    nombre: 'Panadería', 
-    descripcion: 'Pan fresco del día, pasteles, galletas y otros productos horneados.'
-  },
-  { 
-    id: 'CAT008', 
-    nombre: 'Congelados', 
-    descripcion: 'Productos congelados listos para preparar: verduras, carnes, helados.'
-  }
+  { id: 'CAT001', nombre: 'Frutas y verduras', descripcion: 'Variedad de frutas y verduras frescas de temporada.'},
+  { id: 'CAT002', nombre: 'Carnes, aves y pescados', descripcion: 'Cortes frescos de carnes, aves de corral y pescados.'},
+  { id: 'CAT003', nombre: 'Desayunos', descripcion: 'Productos para empezar el día con energía: cereales, panes, etc.' },
+  { id: 'CAT004', nombre: 'Lácteos y huevos', descripcion: 'Leche, yogures, quesos, mantequillas y huevos frescos.'},
+  { id: 'CAT005', nombre: 'Queso y fiambres', descripcion: 'Selección de quesos nacionales e importados y variedad de fiambres.'},
+  { id: 'CAT006', nombre: 'Abarrotes', descripcion: 'Productos básicos de despensa: arroz, azúcar, aceite, conservas, etc.'},
+  { id: 'CAT007', nombre: 'Panadería', descripcion: 'Pan fresco del día, pasteles, galletas y otros productos horneados.'},
+  { id: 'CAT008', nombre: 'Congelados', descripcion: 'Productos congelados listos para preparar: verduras, carnes, helados.'}
 ];
 
 function ListadoCategoriasAdmin() {
@@ -111,25 +80,8 @@ function ListadoCategoriasAdmin() {
   };
 
   return (
-    <div className="admin-page-container">
-      <header className="admin-navbar-standalone">
-        <div className="admin-logo-standalone">MiTienda <span className="admin-dot-standalone">•</span></div>
-        <input className="admin-search-standalone" type="text" placeholder="Buscar en admin..." />
-        <div className="admin-right-buttons-standalone">
-          <button className="admin-panel-btn-standalone">Panel Admin</button>
-          <div className="admin-user-icon-standalone">🧑‍💼 Admin</div>
-        </div>
-      </header>
-
-      <nav className="admin-menu-bar-standalone">
-        <Link to="/admin/dashboard" className="admin-menu-button">Dashboard</Link>
-        <Link to="/admin/productos" className="admin-menu-button">Productos</Link>
-        <Link to="/admin/categorias" className="admin-menu-button active">Categorías</Link>
-        <Link to="/admin/ordenes" className="admin-menu-button">Órdenes</Link>
-        <span className="admin-promo-standalone">Administrador</span>
-      </nav>
-
-      <main className="admin-content-area">
+    <LayoutAdmin>
+      <div className="admin-page-container" style={{padding: 0}}>
         <div className="listado-categorias-content">
           <div className="admin-page-header">
             <h1 className="admin-page-title">Listado de Categorías</h1>
@@ -169,7 +121,7 @@ function ListadoCategoriasAdmin() {
                         <button 
                           onClick={() => handleEliminarCategoria(categoria.id)} 
                           className="admin-button-link"
-                          style={{ color: '#dc3545', marginLeft: '10px', background: 'none', border: 'none', padding: '5px 0', cursor: 'pointer', fontSize: '0.9rem', fontFamily: "'Inter', sans-serif" }}
+                          style={{ color: '#dc3545', marginLeft: '10px' }}
                         >
                           Eliminar
                         </button>
@@ -183,14 +135,14 @@ function ListadoCategoriasAdmin() {
             </table>
           </div>
         </div>
-      </main>
-      {mostrarModalAgregar && (
-        <ModalCategoria
-          onClose={handleCerrarModalAgregar}
-          onSave={handleGuardarNuevaCategoria}
-        />
-      )}
-    </div>
+        {mostrarModalAgregar && (
+          <ModalCategoria
+            onClose={handleCerrarModalAgregar}
+            onSave={handleGuardarNuevaCategoria}
+          />
+        )}
+      </div>
+    </LayoutAdmin>
   );
 }
 
