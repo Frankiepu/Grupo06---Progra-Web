@@ -6,12 +6,13 @@ import './agregarproductoAdmi.css';
 
 const categoriasIniciales = [
   "Frutas y Verduras",
+  "Desayunos",
   "Carnes, Aves y Pescados",
   "Lácteos y Huevos",
-  "Quesos",
+  "Quesos y fiambres",
   "Abarrotes",
-  "Panadería y Pastelería",
-  "Vinos, licores y cervezas",
+  "Panadería ",
+  "Congelados",
 ];
 
 function AgregarProducto() {
