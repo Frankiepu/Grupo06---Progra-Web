@@ -38,16 +38,45 @@ function CambiarContrasena() {
     }
 
     setIsSaving(true);
-    console.log("Cambiando contraseña...");
+    console.log("Intentando cambiar contraseña...");
 
     setTimeout(() => {
-      if (formData.actual === "password123") {
-        setSuccessMessage('¡Contraseña cambiada con éxito!');
-        setFormData({ actual: '', nueva: '', confirmarNueva: '' });
-      } else if (Math.random() > 0.3) {
-        setError('La contraseña actual no es correcta.');
+      const loggedInUserIdentifier = localStorage.getItem("userEmail");
+      let storedUsers = JSON.parse(localStorage.getItem("registeredUser"));
+      let userToUpdate = null;
+      let userIndex = -1;
+      let isSingleUserObject = false;
+
+      if (storedUsers && loggedInUserIdentifier) {
+        if (Array.isArray(storedUsers)) {
+            userIndex = storedUsers.findIndex(user => user.email === loggedInUserIdentifier);
+            if (userIndex !== -1) {
+                userToUpdate = storedUsers[userIndex];
+            }
+        } else {
+            if (storedUsers.email === loggedInUserIdentifier) {
+                userToUpdate = storedUsers;
+                isSingleUserObject = true;
+            }
+        }
+      }
+
+      if (userToUpdate) {
+        if (userToUpdate.password === formData.actual) {
+          userToUpdate.password = formData.nueva;
+          if (isSingleUserObject) {
+            localStorage.setItem("registeredUser", JSON.stringify(userToUpdate));
+          } else {
+            storedUsers[userIndex] = userToUpdate;
+            localStorage.setItem("registeredUser", JSON.stringify(storedUsers));
+          }
+          setSuccessMessage('¡Contraseña cambiada con éxito!');
+          setFormData({ actual: '', nueva: '', confirmarNueva: '' });
+        } else {
+          setError('La contraseña actual no es correcta.');
+        }
       } else {
-        setError('Error simulado al cambiar la contraseña. Inténtalo de nuevo.');
+        setError('No se pudo verificar la contraseña actual o el usuario no está autenticado. Por favor, inicia sesión nuevamente.');
       }
       setIsSaving(false);
     }, 1000);
@@ -58,7 +87,6 @@ function CambiarContrasena() {
       <div className="cambiar-contrasena-container">
         <div className="cambiar-contrasena-header">
           <h1 className="main-title">Cambiar Contraseña</h1>
-          {}
           <Link to="/" className="button-secondary">
             ← Volver a Inicio
           </Link>
