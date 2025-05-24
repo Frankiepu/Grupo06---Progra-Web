@@ -2,30 +2,51 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; 
 import './DatosUsuario.css';
 
-const mockCurrentUserData = {
-  id: 'USR1023',
-  nombre: 'Ana Sofía',
-  apellido: 'Paredes Gómez',
-  correo: 'ana.paredes@example.com',
-};
-
 function DatosUsuario() {
   const [formData, setFormData] = useState({ nombre: '', apellido: '', correo: '' });
   const [isLoading, setIsLoading] = useState(true);
   const [isSaving, setIsSaving] = useState(false);
   const [error, setError] = useState(null);
   const [successMessage, setSuccessMessage] = useState('');
-  
+
   useEffect(() => {
     setIsLoading(true);
     setError(null);
     setSuccessMessage('');
+    
+    const loggedInUserIdentifier = localStorage.getItem("userEmail"); 
+    const storedUsers = JSON.parse(localStorage.getItem("registeredUser")); 
+    
+    let userToLoad = null;
+    if (storedUsers) {
+        if (Array.isArray(storedUsers)) {
+            userToLoad = storedUsers.find(user => user.email === loggedInUserIdentifier);
+        } else { 
+            if (storedUsers.email === loggedInUserIdentifier) {
+                userToLoad = storedUsers;
+            }
+        }
+    }
+
     setTimeout(() => {
-      setFormData({
-        nombre: mockCurrentUserData.nombre,
-        apellido: mockCurrentUserData.apellido,
-        correo: mockCurrentUserData.correo,
-      });
+      if (loggedInUserIdentifier && userToLoad) {
+        setFormData({
+          nombre: userToLoad.nombre || '',
+          apellido: userToLoad.apellido || '',
+          correo: userToLoad.email || '', 
+        });
+      } else {
+        setFormData({
+          nombre: 'Invitado',
+          apellido: 'Prueba',
+          correo: 'invitado@example.com',
+        });
+        if (!loggedInUserIdentifier) {
+            setError("Usuario no autenticado. Mostrando datos de ejemplo. Por favor, inicia sesión.");
+        } else {
+            setError("No se pudo cargar la información del usuario. Mostrando datos de ejemplo.");
+        }
+      }
       setIsLoading(false);
     }, 500);
   }, []);
@@ -33,6 +54,8 @@ function DatosUsuario() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prevData => ({ ...prevData, [name]: value }));
+    if (error) setError(null);
+    if (successMessage) setSuccessMessage('');
   };
 
   const handleSubmit = (e) => {
@@ -54,20 +77,63 @@ function DatosUsuario() {
     
     console.log("Guardando datos del usuario:", formData);
     setTimeout(() => {
-      if (Math.random() > 0.2) {
+      const loggedInUserIdentifier = localStorage.getItem("userEmail");
+      let storedUsers = JSON.parse(localStorage.getItem("registeredUser"));
+      let userFoundAndUpdated = false;
+
+      if (storedUsers && loggedInUserIdentifier) {
+        const updateUserInStorage = (userCollection) => {
+            const userIndex = userCollection.findIndex(user => user.email === loggedInUserIdentifier);
+            if (userIndex !== -1) {
+                const originalUserData = userCollection[userIndex];
+                userCollection[userIndex] = {
+                    ...originalUserData,
+                    nombre: formData.nombre,
+                    apellido: formData.apellido,
+                    email: formData.correo, 
+                };
+                if (formData.correo !== loggedInUserIdentifier) {
+                    localStorage.setItem("userEmail", formData.correo);
+                }
+                return true;
+            }
+            return false;
+        };
+
+        if (Array.isArray(storedUsers)) {
+            userFoundAndUpdated = updateUserInStorage(storedUsers);
+            if (userFoundAndUpdated) {
+                localStorage.setItem("registeredUser", JSON.stringify(storedUsers));
+            }
+        } else { 
+            if (storedUsers.email === loggedInUserIdentifier) {
+                const originalUserData = storedUsers;
+                 storedUsers = {
+                    ...originalUserData,
+                    nombre: formData.nombre,
+                    apellido: formData.apellido,
+                    email: formData.correo,
+                };
+                if (formData.correo !== loggedInUserIdentifier) {
+                    localStorage.setItem("userEmail", formData.correo);
+                }
+                localStorage.setItem("registeredUser", JSON.stringify(storedUsers));
+                userFoundAndUpdated = true;
+            }
+        }
+      }
+
+      if (userFoundAndUpdated) {
         setSuccessMessage('¡Datos actualizados con éxito!');
-        mockCurrentUserData.nombre = formData.nombre;
-        mockCurrentUserData.apellido = formData.apellido;
-        mockCurrentUserData.correo = formData.correo;
       } else {
-        setError('Error simulado al guardar los datos. Inténtalo de nuevo.');
+        setError('No se pudo actualizar el usuario o no estabas autenticado correctamente. Intenta iniciar sesión de nuevo.');
       }
       setIsSaving(false);
     }, 1000);
   };
   
   if (isLoading) {
-    return <div className="datos-usuario-page loading-container">Cargando tus datos...</div>;
+    return <div className="datos-usuario-page"><div className="datos-usuario-container loading-container">Cargando tus datos...</div></div>;
   }
 
   return (
@@ -75,11 +141,10 @@ function DatosUsuario() {
       <div className="datos-usuario-container">
         <div className="datos-usuario-header">
           <h1 className="main-title">Mis Datos Personales</h1>
-            {}
             <Link to="/" className="button-secondary">
               ← Volver a Inicio
             </Link>
-        </div>
+         </div>
 
         <form onSubmit={handleSubmit} className="datos-usuario-form">
           {error && <div className="form-message error-message">{error}</div>}
