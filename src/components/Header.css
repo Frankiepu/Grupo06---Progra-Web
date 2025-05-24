@@ -1,13 +1,11 @@
-/* Header.css */
-
 /* Contenedor principal del header */
 .app-header {
-    background-color: #ffffff; /* Fondo blanco para el header */
+    background-color: #ffffff; 
     padding: 0 20px; /* Padding horizontal */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Sombra sutil */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
     position: sticky; /* Para que se quede fijo en la parte superior */
     top: 0;
-    z-index: 1000; /* Asegura que esté por encima de otros contenidos */
+    z-index: 1000; 
     width: 100%;
   }
   
@@ -15,41 +13,41 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    height: 70px; /* Altura del header */
-    max-width: 1200px; /* Ancho máximo para el contenido del header */
+    height: 70px; 
+    max-width: 1200px; 
     margin: 0 auto; /* Centrar el contenido del header */
   }
   
   /* Contenedor del logo/nombre de la tienda */
   .logo-container {
-    flex-shrink: 0; /* Evita que el logo se encoja */
+    flex-shrink: 0; 
   }
   
   .mitienda-logo-button { /* Estilo para el Link "MiTienda" */
     font-size: 1.8rem;
     font-weight: bold;
-    color: #007bff; /* Color azul primario */
+    color: #007bff;
     text-decoration: none;
     transition: color 0.2s ease-in-out;
   }
   
   .mitienda-logo-button:hover {
-    color: #0056b3; /* Azul más oscuro al pasar el mouse */
+    color: #0056b3; 
   }
   
   /* Contenedor de la barra de búsqueda y sugerencias */
   .search-bar-wrapper {
-    position: relative; /* Para el posicionamiento absoluto de las sugerencias */
-    flex-grow: 1; /* Permite que ocupe el espacio disponible */
-    margin: 0 25px; /* Espacio alrededor de la barra de búsqueda */
-    max-width: 600px; /* Ancho máximo para la barra de búsqueda */
+    position: relative; 
+    flex-grow: 1;
+    margin: 0 25px;
+    max-width: 600px; 
   }
   
   .search-bar-container {
     display: flex;
     align-items: center;
-    background-color: #f0f2f5; /* Fondo claro para la barra de búsqueda */
-    border-radius: 20px; /* Bordes redondeados */
+    background-color: #f0f2f5; 
+    border-radius: 20px; 
     padding: 0 15px;
     height: 40px;
   }
@@ -60,7 +58,7 @@
     outline: none;
     padding: 8px 10px;
     font-size: 0.95rem;
-    background-color: transparent; /* Fondo transparente para el input */
+    background-color: transparent; 
     color: #333;
   }
   
@@ -68,7 +66,7 @@
     color: #888;
   }
   
-  .search-icon-wrapper { /* Ahora es un botón */
+  .search-icon-wrapper { 
     background: none;
     border: none;
     padding: 0;
@@ -87,7 +85,7 @@
   .search-suggestions-list {
     list-style: none;
     padding: 0;
-    margin: 5px 0 0 0; /* Margen superior para separarlo del input */
+    margin: 5px 0 0 0; 
     position: absolute;
     top: 100%; 
     left: 0;
@@ -95,9 +93,9 @@
     background-color: #ffffff;
     border: 1px solid #e0e0e0;
     border-top: none;
-    border-radius: 0 0 8px 8px; /* Bordes redondeados solo abajo */
+    border-radius: 0 0 8px 8px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.1);
-    z-index: 1001; /* Encima del header pero debajo de modales muy altos */
+    z-index: 1001; 
     max-height: 280px;
     overflow-y: auto;
   }
@@ -117,8 +115,8 @@
   }
   
   .search-suggestion-item:hover,
-  .search-suggestion-item:focus { /* Para accesibilidad con teclado */
-    background-color: #f0f8ff; /* Azul muy claro al pasar el mouse/enfocar */
+  .search-suggestion-item:focus {
+    background-color: #f0f8ff; 
     outline: none;
   }
   
@@ -137,11 +135,11 @@
     color: #333;
   }
   
-  /* Contenedor de acciones del header (login, carrito, menú móvil) */
+  /* Contenedor de acciones del header (login, carrito) */
   .header-actions {
     display: flex;
     align-items: center;
-    gap: 15px; /* Espacio entre los botones de acción */
+    gap: 15px; 
   }
   
   /* Botones de acción generales */
@@ -149,15 +147,15 @@
     background: none;
     border: none;
     cursor: pointer;
-    padding: 8px; /* Padding para hacer el área clickeable más grande */
+    padding: 8px; 
     display: flex;
     align-items: center;
-    color: #333; /* Color por defecto para íconos/texto en botones */
+    color: #333; 
     transition: color 0.2s ease-in-out;
   }
   
   .action-button:hover {
-    color: #007bff; /* Color de hover */
+    color: #007bff; 
   }
   
   /* Estilo para el botón de usuario/login */
@@ -170,20 +168,19 @@
   .user-button .user-label {
     font-size: 0.9rem;
     font-weight: 500;
-    /* El color se hereda de .action-button */
+
   }
   
-  /* Estilo para mostrar el nombre del usuario logueado */
   .user-display {
-    color: #ffffff; /* Color de texto blanco (como estaba en tu inline style) */
+    color: #ffffff; 
     margin-right: 10px;
     display: flex;
     align-items: center;
-    cursor: pointer; /* Para indicar que es clickeable */
+    cursor: pointer; 
     font-size: 0.9rem;
     font-weight: 500;
   }
-  .user-display UserIcon { /* Si UserIcon fuera un componente que acepta props de estilo */
+  .user-display UserIcon { 
     margin-right: 5px;
   }
   
@@ -191,8 +188,8 @@
   .logout-button {
     background: #ff4d4f;
     color: #fff;
-    padding: 6px 12px; /* Ajustado el padding */
-    border-radius: 6px; /* Bordes redondeados */
+    padding: 6px 12px; 
+    border-radius: 6px; 
     border: none;
     cursor: pointer;
     font-size: 0.85rem;
@@ -201,31 +198,31 @@
   }
   
   .logout-button:hover {
-    background: #e6393b; /* Rojo más oscuro al pasar el mouse */
+    background: #e6393b; 
   }
   
   /* Botón del carrito */
   .cart-button {
-    position: relative; /* Para el posicionamiento del badge */
+    position: relative; 
   }
   
   .cart-badge {
     position: absolute;
-    top: -5px;    /* Ajusta para posicionar el badge */
-    right: -8px;  /* Ajusta para posicionar el badge */
-    background-color: #dc3545; /* Rojo para el badge */
+    top: -5px;    
+    right: -8px;  
+    background-color: #dc3545;
     color: white;
     border-radius: 50%;
     padding: 2px 6px;
     font-size: 0.7rem;
     font-weight: bold;
-    line-height: 1; /* Para mejor centrado vertical del número */
-    min-width: 18px; /* Ancho mínimo para que se vea bien con 1 o 2 dígitos */
+    line-height: 1; 
+    min-width: 18px;
     text-align: center;
   }
   
-  /* Iconos (si necesitas darles un tamaño específico o color) */
-  .app-header [role="img"] { /* Estilo general para tus íconos span */
-    font-size: 1.2rem; /* Ajusta el tamaño de los íconos emoji/texto */
+
+  .app-header [role="img"] {
+    font-size: 1.2rem;
   }
   

@@ -10,7 +10,7 @@ import imgazucar from '../assets/azucar.png';
 import imgavena from '../assets/avena.png';
 import imgArroz from '../assets/arroz.png'; 
 import imgLeche from '../assets/lechegloria.png'; 
-// import imgShampoo from '../assets/shampoo.png';
+
 
 
 import imgfrutas from '../assets/frutas.png';
@@ -26,12 +26,9 @@ const bannerImages = [
   "https://placehold.co/1200x400/E6E6FA/483D8B?text=Novedades+del+Mes", 
 ];
 
-// PRODUCTOS DESTACADOS - Con IDs, descripciones y presentaciones
-// Exportamos para que ProductDetailPage pueda acceder a estos datos.
-// En una aplicación real, estos datos vendrían de una API o un estado global (Context).
 export const featuredProducts = [ 
   {
-    id: 'prod1', // ID único como string
+    id: 'prod1', 
     name: 'Pollo Entero Fresco',
     price: 'S/ 9.40 x KG',
     imageUrl: imgpollo,
@@ -98,7 +95,6 @@ export const featuredProducts = [
   },
 ];
 
-// Exportamos categories también, por si es útil
 export const categories = [ 
   { id: 'cat1', name: 'Frutas y Verduras', imageUrl: imgfrutas, description: 'Las frutas y verduras más frescas y de temporada, directas del campo a tu mesa.' },
   { id: 'cat2', name: 'Carnes, Aves y Pescado', imageUrl: imgcarnes, description: 'Cortes selectos de carnes rojas, pollo fresco y una variedad de pescados y mariscos.' },
