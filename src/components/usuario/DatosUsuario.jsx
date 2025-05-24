@@ -192,7 +192,10 @@ function DatosUsuario() {
             />
           </div>
 
-          <div className="form-actions">
+          <div className="form-actions" style={{ display: 'flex', justifyContent: 'flex-end', gap: '10px' }}>
+            <Link to="/usuario/cambiar-contrasena" className="button-secondary">
+              Cambiar Contraseña
+            </Link>
             <button type="submit" className="button-primary save-button" disabled={isSaving}>
               {isSaving ? 'Guardando...' : 'Guardar Cambios'}
             </button>
