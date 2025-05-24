@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import LayoutAdmin from './LayoutAdmin.jsx';
 import EliminarProductoModal from './EliminarProductoModal.jsx';
 import './listaProductos.css';
@@ -7,6 +8,7 @@ function ListaProductos() {
   const [productos, setProductos] = useState([]);
   const [busqueda, setBusqueda] = useState('');
   const [productoEliminar, setProductoEliminar] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const almacenados = JSON.parse(localStorage.getItem('productos')) || [];
@@ -19,7 +21,7 @@ function ListaProductos() {
 
   const editarProducto = (producto) => {
     localStorage.setItem('productoEditando', JSON.stringify(producto));
-    window.location.href = '/agregar-producto';
+    navigate('/admin/productos/editar');
   };
 
   const eliminarProducto = () => {
@@ -35,7 +37,7 @@ function ListaProductos() {
       <div className="listado-container">
         <div className="listado-header">
           <h1>📦 Listado de productos</h1>
-          <button className="btn-agregar" onClick={() => window.location.href = '/agregar-producto'}>
+          <button className="btn-agregar" onClick={() => navigate('/admin/productos/nuevo')}>
             ➕ Agregar producto
           </button>
         </div>

@@ -10,7 +10,6 @@ import Carrito from './components/Carrito';
 import Checkout from './components/Checkout';
 import ProductDetailPage from './components/ProductDetailPage'; 
 
-
 import DetalleOrdenUsuario from './components/usuario/DetalleOrdenUsuario';
 import DatosUsuario from './components/usuario/DatosUsuario';
 import CambiarContrasena from './components/usuario/CambiarContrasena'; 
@@ -20,9 +19,8 @@ import AgregarCategoriaAdmin from './components/admin/AgregarCategoriaAdmin';
 import ListaOrdenesAdmin from './components/admin/ListaOrdenesAdmin';
 import ListaOrdenes2 from './components/admin/ListaOrdenes2';
 import DashboardAdmin from './components/admin/DashboardAdmin';
-import AgregarproductoAdmin from './components/admin/AgregarproductoAdmi';
+import AgregarproductoAdmi from './components/admin/AgregarproductoAdmi';
 import ListaProductos from './components/admin/ListaProductos';
-
 
 const ProductsPagePlaceholder = ({ addToCart }) => (
   <div>
@@ -55,7 +53,6 @@ function App() {
   const goToRegister = () => navigate('/registro');
   const goToRecover = () => navigate('/recuperar');
   const goToProducts = () => navigate('/productos');
-
 
   const changeQuantityInCart = (productId, delta) => {
     setCartItems(prevItems =>
@@ -114,7 +111,6 @@ function App() {
           }
         />
         
-        {/* (Tus rutas de /usuario y /admin se mantienen igual) */}
         <Route path="/usuario/ordenes" element={<UserLayout {...userLayoutProps}><ListaOrdenesUsuario orders={completedOrders} /></UserLayout>}/>
         <Route path="/usuario/orden/detalle/:orderId" element={<UserLayout {...userLayoutProps}><DetalleOrdenUsuario getOrderById={getOrderById} updateOrderStatus={updateOrderStatus} /></UserLayout>}/>
         <Route path="/usuario/datos" element={<UserLayout {...userLayoutProps}><DatosUsuario /></UserLayout>}/>
@@ -124,7 +120,8 @@ function App() {
         <Route path="/admin/ordenes" element={<ListaOrdenesAdmin allOrders={completedOrders} updateOrderStatus={updateOrderStatus} />}/> 
         <Route path="/admin/dashboard" element={<DashboardAdmin />} />   
         <Route path="/admin/productos" element={<ListaProductos />} />
-        <Route path="/admin/productos/nuevo" element={<AgregarproductoAdmin />} />
+        <Route path="/admin/productos/nuevo" element={<AgregarproductoAdmi />} />
+        <Route path="/admin/productos/editar" element={<AgregarproductoAdmi />} />
         <Route path="/admin/ordenes2" element={<ListaOrdenes2 />} /> 
 
         <Route path="*" element={

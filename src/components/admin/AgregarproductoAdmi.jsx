@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import LayoutAdmin from './LayoutAdmin.jsx';
 import ModalCategoria from './Modalcategoria.jsx';
 import './agregarproductoAdmi.css';
 
 const categoriasIniciales = [
   "Frutas y Verduras",
-  "Vinos, licores y cervezas",
   "Carnes, Aves y Pescados",
-  "Tecnología",
-  "Juguetes y Juegos",
-  "Accesorios",
-  "Mascotas"
+  "Lácteos y Huevos",
+  "Quesos",
+  "Abarrotes",
+  "Panadería y Pastelería",
+  "Vinos, licores y cervezas",
 ];
 
 function AgregarProducto() {
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const [formData, setFormData] = useState({
     nombre: '',
     presentacion: '',
@@ -30,14 +34,27 @@ function AgregarProducto() {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [modoEdicion, setModoEdicion] = useState(false);
 
-  // Cargar producto en edición si existe
   useEffect(() => {
-    const editar = localStorage.getItem('productoEditando');
-    if (editar) {
-      setFormData(JSON.parse(editar));
-      setModoEdicion(true);
+    if (location.pathname.includes('editar')) {
+      const editar = localStorage.getItem('productoEditando');
+      if (editar) {
+        setFormData(JSON.parse(editar));
+        setModoEdicion(true);
+      }
+    } else {
+      // Si es ruta nueva
+      setFormData({
+        nombre: '',
+        presentacion: '',
+        categoria: '',
+        descripcion: '',
+        imagen: '',
+        stock: 0,
+      });
+      setModoEdicion(false);
+      localStorage.removeItem('productoEditando');
     }
-  }, []);
+  }, [location.pathname]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -54,52 +71,43 @@ function AgregarProducto() {
       reader.readAsDataURL(file);
     }
   };
-//cada vez que el admin cree o edite un producto, volverá automáticamente a la tabla de productos actualizada
-const guardarProducto = () => {
-  const { nombre, presentacion, categoria, descripcion } = formData;
 
-  if (!nombre || !presentacion || !categoria || !descripcion) {
-    alert("Completa todos los campos antes de guardar.");
-    return;
-  }
+  const guardarProducto = () => {
+    const { nombre, presentacion, categoria, descripcion } = formData;
 
-  const productos = JSON.parse(localStorage.getItem('productos')) || [];
-
-  if (modoEdicion) {
-    // Actualizar producto existente
-    const index = productos.findIndex(p => p.id === formData.id);
-    if (index !== -1) {
-      productos[index] = formData;
+    if (!nombre || !presentacion || !categoria || !descripcion) {
+      alert("Completa todos los campos antes de guardar.");
+      return;
     }
-    alert('Producto editado correctamente');
-  } else {
-    // Crear nuevo producto
-    formData.id = Math.floor(Math.random() * 100000); // ID único
-    productos.push(formData);
-    alert('Producto creado correctamente');
-  }
 
-  localStorage.setItem('productos', JSON.stringify(productos));
-  localStorage.removeItem('productoEditando');
-  setModoEdicion(true);
-  window.location.href = '/lista-productos';
-};
+    const productos = JSON.parse(localStorage.getItem('productos')) || [];
 
+    if (modoEdicion) {
+      const index = productos.findIndex(p => p.id === formData.id);
+      if (index !== -1) {
+        productos[index] = formData;
+      }
+      alert('Producto editado correctamente');
+    } else {
+      formData.id = Date.now(); // ID único
+      productos.push(formData);
+      alert('Producto creado correctamente');
+    }
 
+    localStorage.setItem('productos', JSON.stringify(productos));
+    localStorage.removeItem('productoEditando');
+    setModoEdicion(false);
+    navigate('/admin/productos');
+  };
 
   const agregarCategoria = (nuevaCat) => {
-  const nuevasCategorias = [...categorias, nuevaCat.nombre];
-  setCategorias(nuevasCategorias);
+    const nuevasCategorias = [...categorias, nuevaCat.nombre];
+    setCategorias(nuevasCategorias);
+    setFormData(prev => ({ ...prev, categoria: nuevaCat.nombre }));
+    localStorage.setItem('categorias', JSON.stringify(nuevasCategorias));
+    setMostrarModal(false);
+  };
 
-  // Actualiza también el valor del select
-  setFormData(prev => ({
-    ...prev,
-    categoria: nuevaCat.nombre
-  }));
-
-  localStorage.setItem('categorias', JSON.stringify(nuevasCategorias));
-  setMostrarModal(false);
-};
   const incrementarStock = () => setFormData(p => ({ ...p, stock: p.stock + 1 }));
   const decrementarStock = () => setFormData(p => ({ ...p, stock: Math.max(p.stock - 1, 0) }));
 
