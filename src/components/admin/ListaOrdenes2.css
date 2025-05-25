@@ -1,4 +1,4 @@
-/* Tabla de órdenes adaptada al nuevo estilo */
+
 .tabla-ordenes {
   width: 100%;
   border-collapse: collapse;
@@ -26,12 +26,12 @@
   font-size: 0.95rem;
 }
 
-/* Hover para filas */
+
 .tabla-ordenes tr:hover {
   background-color: #f4f6fa;
 }
 
-/* Estados */
+
 .estado-activo {
   color: green;
   font-weight: bold;
@@ -42,7 +42,7 @@
   font-weight: bold;
 }
 
-/* Lista de ítems del carrito (mantiene estilo funcional con ajuste visual) */
+
 .modal-cart-list {
   display: flex;
   gap: 12px;
@@ -69,7 +69,7 @@
   object-fit: cover;
 }
 
-/* Utilidades actualizadas con coherencia al nuevo diseño */
+
 .p-4 {
   padding: 1rem;
 }

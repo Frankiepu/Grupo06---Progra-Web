@@ -1,7 +1,7 @@
 .navbar-admin {
-  width: 100vw;                /* Ocupar todo el ancho de la ventana */
-  max-width: 100%;             /* Asegura que no haya límites */
-  box-sizing: border-box;      /* Incluye padding en el ancho total */
+  width: 100vw;               
+  max-width: 100%;             
+  box-sizing: border-box;      
   background-color: #1b2e4b;
   color: white;
   padding: 15px 30px;

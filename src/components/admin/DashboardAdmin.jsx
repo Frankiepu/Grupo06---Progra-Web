@@ -27,7 +27,7 @@ function AdminDashboard() {
       <div className="admin-dashboard dashboard-container">
         <h1>📊 Panel de Administración</h1>
 
-        {/* Métricas */}
+      
         <div className="metric-cards">
           <div className="metric-card">
             <h3>Órdenes</h3>
@@ -43,9 +43,9 @@ function AdminDashboard() {
           </div>
         </div>
 
-        {/* Panel principal */}
+        
         <div className="panel-flex">
-          {/* Usuarios */}
+          
           <div className="panel-left table-card">
             <div className="tabla-header">
               <h2>Usuarios registrados</h2>
@@ -80,7 +80,7 @@ function AdminDashboard() {
             </div>
           </div>
 
-          {/* Detalle del usuario */}
+          
           <div className="panel-right user-detail">
             <h2>Detalle del usuario</h2>
             {usuarioSeleccionado && (
@@ -95,7 +95,7 @@ function AdminDashboard() {
           </div>
         </div>
 
-        {/* Órdenes */}
+        
         <div className="table-card">
           <div className="tabla-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
             <h2>Listado de órdenes</h2>

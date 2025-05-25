@@ -1,4 +1,4 @@
-/* Contenedor principal */
+
 .lista-usuarios-container {
   max-width: 1200px;
   margin: 0 auto;
@@ -8,14 +8,14 @@
   color: #1b2e4b;
 }
 
-/* Título */
+
 .lista-usuarios-container h1 {
   font-size: 2rem;
   font-weight: 700;
   margin-bottom: 2rem;
 }
 
-/* Filtros */
+
 .filtros {
   display: flex;
   gap: 1rem;
@@ -30,7 +30,7 @@
   flex: 1;
 }
 
-/* Tabla de usuarios */
+
 .tabla-usuarios {
   width: 100%;
   border-collapse: collapse;
@@ -57,7 +57,7 @@
   color: #1b2e4b;
 }
 
-/* Botones */
+
 .btn-tabla {
   background-color: #1e60d4;
   color: white;
@@ -74,7 +74,7 @@
   background-color: #154aad;
 }
 
-/* Estado de usuario */
+
 .estado-activo {
   color: green;
   font-weight: bold;
