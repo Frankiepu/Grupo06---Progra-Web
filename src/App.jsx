@@ -23,6 +23,7 @@ import AgregarproductoAdmi from './components/admin/AgregarproductoAdmi';
 import ListaProductos from './components/admin/ListaProductos';
 import ListaUsuarios from './components/admin/ListaUsuario';
 import DetalleUsuario from './components/admin/DetalleUsuario';
+import CategoriesPage from './components/CategoriesPage';
 
 const ProductsPagePlaceholder = ({ addToCart }) => (
   <div>
@@ -103,7 +104,8 @@ function App() {
         <Route path="/productos" element={<UserLayout {...userLayoutProps}><ProductsPagePlaceholder addToCart={handleAddToCart} /></UserLayout>}/>
         <Route path="/carrito" element={<UserLayout {...userLayoutProps}><Carrito cartItems={cartItems} onBack={goToHome} onQuantityChange={changeQuantityInCart} onRemoveItem={removeFromCart} onCheckout={goToCheckout} /></UserLayout>}/>
         <Route path="/checkout" element={<UserLayout {...userLayoutProps}><Checkout cartItems={cartItems} onBackToCart={goToCart} onOrderComplete={handleCompleteOrder}/></UserLayout>}/>
-        
+        <Route path="/categorias" element={<UserLayout {...userLayoutProps}><CategoriesPage addToCart={handleAddToCart} /></UserLayout>}/>
+
         <Route 
           path="/producto/:productId" 
           element={

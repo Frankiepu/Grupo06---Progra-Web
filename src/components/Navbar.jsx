@@ -2,7 +2,14 @@
 import React from 'react';
 
 function Navbar() { 
-  const categories = ['Nosotros', 'Productos', 'Categorias'];
+  const categories = ['Inicio', 'Nosotros', 'Productos', 'Categorias'];
+
+  const routes = {
+    'Inicio'      : '/',
+    'Nosotros'   : '/nosotros',
+    'Productos'   : '/productos',
+    'Categorias'  : '/categorias',
+  };
 
   return (
     <nav className="main-navbar">
@@ -10,7 +17,7 @@ function Navbar() {
         <ul className="nav-list">
           {categories.map((category) => (
             <li key={category} className="nav-item">
-              <a href="#" className="nav-link">
+              <a href={routes[category]} className="nav-link">
                 {category}
               </a>
             </li>

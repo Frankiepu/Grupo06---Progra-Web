@@ -7,12 +7,12 @@ import './CategoriesPage.css';
 const categoryMap = {
   'Lácteos'  : 'Lácteos',
   'Pollo'    : 'Carnes, aves y pescado',
-  'Fruta'    : 'Frutas y verduras',
+  'Frutas y verduras'    : 'Frutas y verduras',
   'Abarrotes': 'Abarrotes',
 };
 
 export default function CategoriesPage({ addToCart }) {
-  const fixedCats = ['Lácteos', 'Pollo', 'Fruta', 'Abarrotes'];
+  const fixedCats = ['Lácteos', 'Pollo', 'Frutas y verduras', 'Abarrotes'];
   const [selectedCat, setSelectedCat] = useState(fixedCats[0]);
 
   const filtered = featuredProducts.filter(
@@ -38,7 +38,7 @@ export default function CategoriesPage({ addToCart }) {
 
       <main className="categories-content">
         <h2>{selectedCat}</h2>
-        <div className="products-grid">
+        <div className="products-grid-list">
           {filtered.length > 0 ? (
             filtered.map(prod => (
               <ProductCard
