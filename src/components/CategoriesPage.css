@@ -1,0 +1,53 @@
+.categories-page {
+    display: flex;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .categories-sidebar {
+    width: 200px;
+    border-right: 1px solid #ddd;
+    padding-right: 16px;
+  }
+  
+  .categories-sidebar h2 {
+    margin-bottom: 12px;
+  }
+  
+  .categories-sidebar ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .categories-sidebar li {
+    padding: 8px;
+    margin-bottom: 6px;
+    cursor: pointer;
+    border-radius: 4px;
+  }
+  
+  .categories-sidebar li.active {
+    background: #f04e23;
+    color: #fff;
+  }
+  
+  .categories-content {
+    flex: 1;
+  }
+  
+  .categories-content h2 {
+    margin-bottom: 16px;
+  }
+  
+  .products-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px,1fr));
+    gap: 16px;
+  }
+  
+  .no-products {
+    color: #666;
+    font-style: italic;
+  }
+  
