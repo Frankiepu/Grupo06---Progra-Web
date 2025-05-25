@@ -1,4 +1,4 @@
-/* Base general */
+
 body, html {
   margin: 0;
   padding: 0;
@@ -8,14 +8,14 @@ body, html {
   color: #1b2e4b;
 }
 
-/* Contenedor principal */
+
 .dashboard-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 40px 20px;
 }
 
-/* Título */
+
 .dashboard-container h1 {
   font-size: 2.2rem;
   font-weight: 700;
@@ -26,7 +26,7 @@ body, html {
   gap: 10px;
 }
 
-/* Tarjetas de resumen */
+
 .metric-cards {
   display: flex;
   gap: 1.5rem;
@@ -58,7 +58,7 @@ body, html {
   color: #1e60d4;
 }
 
-/* Panel de usuarios y detalle */
+
 .panel-flex {
   display: flex;
   flex-wrap: wrap;
@@ -72,7 +72,7 @@ body, html {
   min-width: 300px;
 }
 
-/* Tarjetas de tabla y detalle */
+
 .table-card,
 .user-detail {
   background: #ffffff;
@@ -87,7 +87,7 @@ body, html {
   margin-bottom: 1rem;
 }
 
-/* Tabla */
+
 table {
   width: 100%;
   border-collapse: collapse;
@@ -106,7 +106,7 @@ th {
   background-color: #f5f7fa;
 }
 
-/* Botones */
+
 .btn {
   background-color: #1e60d4;
   color: white;
@@ -137,7 +137,7 @@ th {
   font-weight: 600;
 }
 
-/* Estados */
+
 .activo {
   color: green;
   font-weight: bold;
@@ -148,7 +148,7 @@ th {
   font-weight: bold;
 }
 
-/* Imagen usuario */
+
 .user-detail img {
   width: 70px;
   height: 70px;
@@ -157,13 +157,13 @@ th {
   margin-bottom: 10px;
 }
 
-/* Detalles */
+
 .user-detail p {
   margin: 6px 0;
   font-size: 0.95rem;
 }
 
-/* Paginación */
+
 .pagination {
   display: flex;
   justify-content: center;
@@ -189,7 +189,7 @@ th {
   border-color: #1e60d4;
 }
 
-/* Usuarios con foto */
+
 .usuario-con-foto {
   display: flex;
   align-items: center;

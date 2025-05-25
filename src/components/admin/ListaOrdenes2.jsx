@@ -10,19 +10,10 @@ import './ListaOrdenes2.css';
 const ListaOrdenes2 = () => {
   const [filtro, setFiltro] = useState('');
   const [ordenes, setOrdenes] = useState([
-    { id: 1, nombre: 'Carlos', apellido: 'Ramírez', fecha: '21/05/2025', total: 150.0, cancelada: false },
-    { id: 2, nombre: 'María', apellido: 'Fernández', fecha: '20/05/2025', total: 89.5, cancelada: false },
-    { id: 3, nombre: 'Juan', apellido: 'Pérez', fecha: '19/05/2025', total: 230.0, cancelada: false },
-    { id: 4, nombre: 'Ana', apellido: 'Gómez', fecha: '19/05/2025', total: 120.3, cancelada: false },
-    { id: 5, nombre: 'Luis', apellido: 'Martínez', fecha: '18/05/2025', total: 60.0, cancelada: false },
-    { id: 6, nombre: 'Sofía', apellido: 'López', fecha: '18/05/2025', total: 90.0, cancelada: false },
-    { id: 7, nombre: 'Miguel', apellido: 'Torres', fecha: '17/05/2025', total: 75.5, cancelada: false },
-    { id: 8, nombre: 'Elena', apellido: 'Sánchez', fecha: '17/05/2025', total: 110.0, cancelada: false },
-    { id: 9, nombre: 'David', apellido: 'Ramírez', fecha: '16/05/2025', total: 200.0, cancelada: false },
-    { id: 10, nombre: 'Laura', apellido: 'Vargas', fecha: '16/05/2025', total: 95.0, cancelada: false },
-    { id: 11, nombre: 'Jorge', apellido: 'Morales', fecha: '15/05/2025', total: 80.0, cancelada: false },
-    { id: 12, nombre: 'Patricia', apellido: 'Castillo', fecha: '15/05/2025', total: 140.0, cancelada: false },
-    { id: 13, nombre: 'Fernando', apellido: 'Rojas', fecha: '14/05/2025', total: 100.0, cancelada: false },
+  
+  { id: 1, nombre: 'Carlos', apellido: 'Pérez', fecha: '20/01/2025', total: 120.0, cancelada: false },
+  { id: 2, nombre: 'Lucía', apellido: 'García', fecha: '15/02/2025', total: 89.0, cancelada: false },
+  { id: 3, nombre: 'Sebastián', apellido: 'López', fecha: '10/03/2025', total: 149.0, cancelada: false }
   ]);
 
   const [ordenDetalle, setOrdenDetalle] = useState(null);
