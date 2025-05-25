@@ -1,4 +1,4 @@
-
+import { Link } from 'react-router-dom';
 import React from 'react';
 import facebookIcon from '../assets/logofb.png';
 import instagramIcon from '../assets/logoig.png';
@@ -34,19 +34,18 @@ function Footer() {
           <div className="footer-column">
             <h5 className="footer-heading">Enlaces Útiles</h5>
             <ul className="footer-links">
-              <li><a href="#">Sobre Nosotros</a></li>
-              <li><a href="#">Contáctanos</a></li>
-              <li><a href="#">Preguntas Frecuentes (FAQ)</a></li>
-              <li><a href="#">Política de Privacidad</a></li>
-              <li><a href="#">Términos y Condiciones</a></li>
+              <li><Link to="/login">Iniciar Sesión</Link></li>
+              <li><Link to="/registro">Registrarse</Link></li>
+              <li><a href="#">Mis Pedidos</a></li>
+              <li><a href="#">Seguimiento de Envío</a></li>
             </ul>
           </div>
 
           <div className="footer-column">
             <h5 className="footer-heading">Mi Cuenta</h5>
             <ul className="footer-links">
-              <li><a href="#">Iniciar Sesión</a></li>
-              <li><a href="#">Registrarse</a></li>
+              <li><Link to="/login">Iniciar Sesión</Link></li>
+              <li><Link to="/registro">Registrarse</Link></li>
               <li><a href="#">Mis Pedidos</a></li>
               <li><a href="#">Seguimiento de Envío</a></li>
             </ul>
