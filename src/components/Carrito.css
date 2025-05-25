@@ -27,23 +27,31 @@
     gap: 15px;
   }
   .cart-item {
-    display: grid;
-    grid-template-columns: auto 80px 1fr auto auto auto;
+    display: flex;
     align-items: center;
     gap: 10px;
     background: #fff;
     padding: 12px;
     border-radius: 8px;
+    box-shadow: 0 0px 20px rgba(73, 146, 255, 0.08);
   }
   .cart-item img {
-    width: 80px;
+    width: 110px;
     height: auto;
     border-radius: 4px;
   }
+
+  .item-info {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
   .item-info h3 {
     margin: 0;
     font-size: 1.1rem;
   }
+
   .presentation, .arrival {
     margin: 4px 0;
     font-size: 0.9rem;
@@ -53,19 +61,29 @@
   }
   .price {
     font-weight: bold;
+    font-size: 0.9em;
   }
   .quantity-control {
     display: flex;
     align-items: center;
+    justify-content: center;
+    padding: 6px;
     gap: 6px;
+  }
+
+  .selected-checkbox {
+    width: 22px;
+    height: 22px;
+    cursor: pointer;
   }
   .quantity-control button {
     width: 24px;
     height: 24px;
-    border: 1px solid #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     background: none;
     cursor: pointer;
-    border-radius: 4px;
   }
   .remove-button {
     background: none;
@@ -76,7 +94,7 @@
   .cart-summary {
     flex: 1;
     background: #fff;
-    padding: 15px;
+    padding: 25px;
     border-radius: 8px;
     display: flex;
     flex-direction: column;
@@ -93,7 +111,7 @@
   .checkout-button {
     margin-top: 15px;
     padding: 12px;
-    background: #3498db;
+    background: linear-gradient(135deg, #4facfe 0%, #1994ff 100%);
     color: white;
     border: none;
     border-radius: 6px;
