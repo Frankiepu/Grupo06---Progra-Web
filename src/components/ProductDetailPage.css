@@ -1,16 +1,13 @@
-/* ProductDetailPage.css - Estilos Simplificados con Fondo Pastel y Colores Originales para Elementos */
-
 /* Contenedor principal de la página de detalles del producto */
 .product-detail-page-container {
   max-width: 1000px; 
   margin: 30px auto;
-  padding: 25px; /* Un padding general */
+  padding: 25px; 
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #F0F8FF; /* AliceBlue - Un azul pastel muy, muy claro para el fondo */
-  /* O puedes usar el mismo fondo que HomePage si lo prefieres: background-color: #E6F3F7; */
-  color: #333; /* Color de texto principal */
-  border-radius: 8px; /* Opcional: bordes redondeados para el contenedor de la página */
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); /* Sombra muy sutil */
+  background-color: #F0F8FF; 
+  color: #333; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
 }
 
 /* Contenedor para "Producto no encontrado" */
@@ -32,8 +29,8 @@
   display: inline-block;
   margin-bottom: 25px;
   padding: 8px 16px;
-  background-color: #e9ecef; /* Gris claro, como en muchos temas de UI */
-  color: #495057; /* Texto gris oscuro */
+  background-color: #e9ecef; 
+  color: #495057; 
   border: 1px solid #ced4da;
   border-radius: 4px;
   cursor: pointer;
@@ -51,18 +48,18 @@
   gap: 30px;          
   margin-bottom: 40px;
   padding-bottom: 30px;
-  border-bottom: 1px solid #e9ecef; /* Separador un poco más visible */
+  border-bottom: 1px solid #e9ecef; 
 }
 
 /* Contenedor de la imagen */
 .product-detail-image-container {
   flex: 1; 
-  min-width: 280px; /* Ajustado para que no sea demasiado pequeño */
-  max-width: 400px; /* Ajustado */
+  min-width: 280px; 
+  max-width: 400px; 
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #fff; /* Fondo blanco para el contenedor de la imagen */
+  background-color: #fff;
   padding: 15px;
   border: 1px solid #dee2e6;
   border-radius: 8px;
@@ -70,22 +67,22 @@
 
 .product-detail-image {
   width: 100%;
-  max-height: 380px; /* Ajustado */
+  max-height: 380px; 
   object-fit: contain;
-  border-radius: 4px; /* Bordes más sutiles para la imagen en sí */
+  border-radius: 4px;
 }
 
 .product-detail-image-placeholder {
   width: 100%;
-  height: 280px; /* Ajustado */
+  height: 280px; 
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #f8f9fa; /* Gris muy claro */
-  color: #6c757d; /* Texto gris */
+  background-color: #f8f9fa; 
+  color: #6c757d; 
   font-size: 0.9rem;
   text-align: center;
-  border: 1px dashed #adb5bd; /* Borde discontinuo gris */
+  border: 1px dashed #adb5bd; 
   border-radius: 4px;
 }
 
@@ -98,24 +95,24 @@
 }
 
 .product-detail-name {
-  font-size: 1.8rem; /* Tamaño más estándar */
+  font-size: 1.8rem; 
   font-weight: bold;
-  color: #343a40; /* Texto oscuro */
+  color: #343a40; 
   margin-bottom: 10px;
 }
 
 .product-detail-category {
   font-size: 0.8rem;
-  color: #6c757d; /* Gris para categoría */
+  color: #6c757d; 
   margin-bottom: 8px;
   text-transform: uppercase;
 }
 
 .product-detail-presentation {
   font-size: 0.9rem;
-  color: #495057; /* Gris oscuro */
+  color: #495057; 
   margin-bottom: 15px;
-  font-style: normal; /* Quitamos itálica si no se desea */
+  font-style: normal; 
 }
 
 .product-detail-description {
@@ -128,25 +125,25 @@
 
 .product-detail-price-section {
   margin-bottom: 20px;
-  display: flex; /* Para alinear elementos de precio si hay varios */
+  display: flex; 
   align-items: baseline;
   gap: 10px;
 }
 
 .product-detail-price {
-  font-size: 1.5rem; /* Tamaño de precio más estándar */
+  font-size: 1.5rem; 
   font-weight: bold;
-  color: #007bff; /* Azul para el precio, como en tu HomePage original */
+  color: #007bff; 
 }
 
 .product-detail-old-price {
   font-size: 0.95rem;
-  color: #6c757d; /* Gris para precio tachado */
+  color: #6c757d;
   text-decoration: line-through;
 }
 
 .product-detail-discount-badge {
-  background-color: #dc3545; /* Rojo para descuento */
+  background-color: #dc3545; 
   color: white;
   padding: 4px 8px;
   border-radius: 4px;
@@ -155,8 +152,8 @@
 }
 
 .add-to-cart-detail-button {
-  padding: 10px 20px; /* Padding más estándar */
-  background-color: #007bff; /* Azul primario, como en tu HomePage original */
+  padding: 10px 20px; 
+  background-color: #007bff; 
   color: white;
   border: none;
   border-radius: 5px;
@@ -169,19 +166,19 @@
 }
 
 .add-to-cart-detail-button:hover {
-  background-color: #0056b3; /* Azul más oscuro */
+  background-color: #0056b3; 
 }
 
 /* Sección de Productos Similares */
 .similar-products-section {
-  margin-top: 30px; /* Margen ajustado */
+  margin-top: 30px;
   padding-top: 20px;
-  border-top: 1px solid #dee2e6; /* Borde más estándar */
+  border-top: 1px solid #dee2e6; 
 }
 
 .similar-products-title {
   font-size: 1.4rem; 
-  color: #343a40; /* Texto oscuro */
+  color: #343a40;
   margin-bottom: 20px;
   text-align: center;
   font-weight: 600;
