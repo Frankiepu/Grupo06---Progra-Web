@@ -47,7 +47,6 @@ function ProductDetailPage({ addToCart }) {
               }}
             />
           ) : (
-            // Placeholder si no hay imageUrl
             <div className="product-detail-image-placeholder">
               <span>Imagen no disponible</span>
             </div>
