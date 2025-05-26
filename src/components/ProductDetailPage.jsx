@@ -1,11 +1,8 @@
 import React from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-// Asumimos que featuredProducts se exporta desde HomePage.jsx
-// Ajusta la ruta si HomePage.jsx está en una ubicación diferente a la carpeta 'components'
 import { featuredProducts } from './HomePage'; 
-import ProductCard from './ProductCard'; // Para mostrar productos similares
+import ProductCard from './ProductCard'; 
 
-// Importarás tus estilos desde ProductDetailPage.css
 import './ProductDetailPage.css'; 
 
 function ProductDetailPage({ addToCart }) { 
