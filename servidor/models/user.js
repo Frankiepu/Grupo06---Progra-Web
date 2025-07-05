@@ -9,17 +9,35 @@ module.exports = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        correo: {
+        apellido: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: false
         },
-        contraseña: {
+        email: {
             type: DataTypes.STRING,
-            allowNull: true
+            allowNull: false,
+            unique: true,
+            validate: {
+                isEmail: true
+            }
+        },
+        dni: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            unique: true
+        },
+        password: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        role: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: 'user'
         }
     }, {
         tableName: 'users',
-        timestamps: false
+        timestamps: true
     });
 
     return user;

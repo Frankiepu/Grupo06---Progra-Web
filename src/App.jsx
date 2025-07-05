@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, Link as RouterLink } from 'react-router-dom';
+import { AuthProvider } from './components/autenticacion';
 
 import UserLayout from './components/UserLayout';
 import HomePage from './components/HomePage';
@@ -24,6 +25,7 @@ import ListaProductos from './components/admin/ListaProductos';
 import ListaUsuarios from './components/admin/ListaUsuario';
 import DetalleUsuario from './components/admin/DetalleUsuario';
 import CategoriesPage from './components/CategoriesPage';
+import ProtectedRoute from './components/ProtectedRoute';
 
 const ProductsPagePlaceholder = ({ addToCart }) => (
   <div>
@@ -32,7 +34,7 @@ const ProductsPagePlaceholder = ({ addToCart }) => (
   </div>
 );
 
-function App() {
+function AppContent() {
   const [cartItems, setCartItems] = useState([]);
   const [completedOrders, setCompletedOrders] = useState([]);
   const navigate = useNavigate();
@@ -97,15 +99,13 @@ function App() {
   return (
     <div className="App">
       <Routes>
+        {/* Rutas públicas */}
         <Route path="/" element={<UserLayout {...userLayoutProps}><HomePage addToCart={handleAddToCart} /></UserLayout>}/>
         <Route path="/login" element={<UserLayout {...userLayoutProps}><Login onRegisterClick={goToRegister} onRecoverClick={goToRecover} onBack={goToHome} /></UserLayout>}/>
         <Route path="/registro" element={<UserLayout {...userLayoutProps}><Registro onLoginClick={goToLogin} /></UserLayout>}/>
         <Route path="/recuperar" element={<UserLayout {...userLayoutProps}><Recuperar onLoginClick={goToLogin} /></UserLayout>}/>
         <Route path="/productos" element={<UserLayout {...userLayoutProps}><ProductsPagePlaceholder addToCart={handleAddToCart} /></UserLayout>}/>
-        <Route path="/carrito" element={<UserLayout {...userLayoutProps}><Carrito cartItems={cartItems} onBack={goToHome} onQuantityChange={changeQuantityInCart} onRemoveItem={removeFromCart} onCheckout={goToCheckout} /></UserLayout>}/>
-        <Route path="/checkout" element={<UserLayout {...userLayoutProps}><Checkout cartItems={cartItems} onBackToCart={goToCart} onOrderComplete={handleCompleteOrder}/></UserLayout>}/>
         <Route path="/categorias" element={<UserLayout {...userLayoutProps}><CategoriesPage addToCart={handleAddToCart} /></UserLayout>}/>
-
         <Route 
           path="/producto/:productId" 
           element={
@@ -114,24 +114,65 @@ function App() {
             </UserLayout>
           }
         />
-        
-        <Route path="/usuario/ordenes" element={<UserLayout {...userLayoutProps}><ListaOrdenesUsuario orders={completedOrders} /></UserLayout>}/>
-        <Route path="/usuario/orden/detalle/:orderId" element={<UserLayout {...userLayoutProps}><DetalleOrdenUsuario getOrderById={getOrderById} updateOrderStatus={updateOrderStatus} /></UserLayout>}/>
-        <Route path="/usuario/datos" element={<UserLayout {...userLayoutProps}><DatosUsuario /></UserLayout>}/>
-        <Route path="/usuario/cambiar-contrasena" element={<UserLayout {...userLayoutProps}><CambiarContrasena /></UserLayout>}/>
-        <Route path="/admin" element={<DashboardAdmin />} />
-        <Route path="/admin/categorias" element={<ListadoCategoriasAdmin />} />
-        <Route path="/admin/categorias/nueva" element={<AgregarCategoriaAdmin />} />
-        <Route path="/admin/ordenes" element={<ListaOrdenesAdmin allOrders={completedOrders} updateOrderStatus={updateOrderStatus} />}/> 
-        <Route path="/admin/dashboard" element={<DashboardAdmin />} />   
-        <Route path="/admin/productos" element={<ListaProductos />} />
-        <Route path="/admin/productos/nuevo" element={<AgregarproductoAdmi />} />
-        <Route path="/admin/productos/editar" element={<AgregarproductoAdmi />} />
-        <Route path="/admin/ordenes2" element={<ListaOrdenes2 />} /> 
-        <Route path="/admin/usuarios/:id" element={<DetalleUsuario />} />
-        <Route path="/admin/ListaUsuario" element={<ListaUsuarios />} /> 
 
+        {/* Rutas protegidas para usuarios autenticados */}
+        <Route path="/carrito" element={
+          <ProtectedRoute>
+            <UserLayout {...userLayoutProps}>
+              <Carrito cartItems={cartItems} onBack={goToHome} onQuantityChange={changeQuantityInCart} onRemoveItem={removeFromCart} onCheckout={goToCheckout} />
+            </UserLayout>
+          </ProtectedRoute>
+        }/>
+        <Route path="/checkout" element={
+          <ProtectedRoute>
+            <UserLayout {...userLayoutProps}>
+              <Checkout cartItems={cartItems} onBackToCart={goToCart} onOrderComplete={handleCompleteOrder}/>
+            </UserLayout>
+          </ProtectedRoute>
+        }/>
+        <Route path="/usuario/ordenes" element={
+          <ProtectedRoute>
+            <UserLayout {...userLayoutProps}>
+              <ListaOrdenesUsuario orders={completedOrders} />
+            </UserLayout>
+          </ProtectedRoute>
+        }/>
+        <Route path="/usuario/orden/detalle/:orderId" element={
+          <ProtectedRoute>
+            <UserLayout {...userLayoutProps}>
+              <DetalleOrdenUsuario getOrderById={getOrderById} updateOrderStatus={updateOrderStatus} />
+            </UserLayout>
+          </ProtectedRoute>
+        }/>
+        <Route path="/usuario/datos" element={
+          <ProtectedRoute>
+            <UserLayout {...userLayoutProps}>
+              <DatosUsuario />
+            </UserLayout>
+          </ProtectedRoute>
+        }/>
+        <Route path="/usuario/cambiar-contrasena" element={
+          <ProtectedRoute>
+            <UserLayout {...userLayoutProps}>
+              <CambiarContrasena />
+            </UserLayout>
+          </ProtectedRoute>
+        }/>
 
+        {/* Rutas protegidas para administradores */}
+        <Route path="/admin" element={<ProtectedRoute requireAdmin><DashboardAdmin /></ProtectedRoute>} />
+        <Route path="/admin/dashboard" element={<ProtectedRoute requireAdmin><DashboardAdmin /></ProtectedRoute>} />
+        <Route path="/admin/categorias" element={<ProtectedRoute requireAdmin><ListadoCategoriasAdmin /></ProtectedRoute>} />
+        <Route path="/admin/categorias/nueva" element={<ProtectedRoute requireAdmin><AgregarCategoriaAdmin /></ProtectedRoute>} />
+        <Route path="/admin/ordenes" element={<ProtectedRoute requireAdmin><ListaOrdenesAdmin allOrders={completedOrders} updateOrderStatus={updateOrderStatus} /></ProtectedRoute>}/> 
+        <Route path="/admin/productos" element={<ProtectedRoute requireAdmin><ListaProductos /></ProtectedRoute>} />
+        <Route path="/admin/productos/nuevo" element={<ProtectedRoute requireAdmin><AgregarproductoAdmi /></ProtectedRoute>} />
+        <Route path="/admin/productos/editar" element={<ProtectedRoute requireAdmin><AgregarproductoAdmi /></ProtectedRoute>} />
+        <Route path="/admin/ordenes2" element={<ProtectedRoute requireAdmin><ListaOrdenes2 /></ProtectedRoute>} /> 
+        <Route path="/admin/usuarios/:id" element={<ProtectedRoute requireAdmin><DetalleUsuario /></ProtectedRoute>} />
+        <Route path="/admin/ListaUsuario" element={<ProtectedRoute requireAdmin><ListaUsuarios /></ProtectedRoute>} /> 
+
+        {/* Ruta 404 */}
         <Route path="*" element={
           <UserLayout {...userLayoutProps}>
             <div style={{ textAlign: 'center', padding: '50px' }}>
@@ -145,6 +186,14 @@ function App() {
         }/>
       </Routes>
     </div>
+  );
+}
+
+function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 

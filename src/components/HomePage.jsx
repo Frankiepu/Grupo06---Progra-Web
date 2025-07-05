@@ -3,20 +3,6 @@ import ProductCard from './ProductCard';
 import CategoryCard from './CategoryCard';
 import './HomePage.css';
 
-// Importaciones de imágenes
-import imgpollo from '../assets/polloentero.png';
-import imgzanahoria from '../assets/zanahoria.png';
-import imgazucar from '../assets/azucar.png';
-import imgavena from '../assets/avena.png';
-import imgArroz from '../assets/arroz.png'; 
-import imgLeche from '../assets/lechegloria.png'; 
-
-
-
-import imgfrutas from '../assets/frutas.png';
-import imgcarnes from '../assets/carnes.png';
-import imgabarrotes from '../assets/abarrotes.png';
-
 import bannerPrincipal from '../assets/bannerpromocional.png';
 
 const bannerImages = [
@@ -26,87 +12,82 @@ const bannerImages = [
   "https://placehold.co/1200x400/E6E6FA/483D8B?text=Novedades+del+Mes", 
 ];
 
-export const featuredProducts = [ 
-  {
-    id: 'prod1', 
-    name: 'Pollo Entero Fresco',
-    price: 'S/ 9.40 x KG',
-    imageUrl: imgpollo,
-    oldPrice: null,
-    discount: null,
-    category: 'Carnes, aves y pescado',
-    description: 'Pollo entero fresco y de corral, ideal para tus preparaciones diarias. Calidad garantizada y frescura incomparable para tus comidas familiares. Perfecto para hornear, asar o guisar.',
-    presentation: 'Aprox. 1.8 - 2.2 kg por unidad'
-  },
-  {
-    id: 'prod2',
-    name: 'Zanahoria Fresca',
-    price: 'S/ 2.99 x KG',
-    imageUrl: imgzanahoria,
-    oldPrice: null,
-    discount: null,
-    category: 'Frutas y verduras',
-    description: 'Zanahorias frescas, dulces y crujientes, seleccionadas de los mejores cultivos. Ricas en vitaminas y perfectas para ensaladas, jugos, guisos o como un snack saludable y delicioso.',
-    presentation: 'Venta por kilogramo'
-  },
-  {
-    id: 'prod3',
-    name: 'Azúcar Rubia BELL',
-    price: 'S/ 8.99 un',
-    imageUrl: imgazucar,
-    oldPrice: 'S/ 15.00',
-    discount: '40%',
-    category: 'Abarrotes',
-    description: 'Azúcar rubia de caña de la reconocida marca BELL. Endulza tus bebidas, postres y preparaciones con un toque natural y un sabor más profundo. Bolsa de 1kg.',
-    presentation: 'Bolsa 1 kg'
-  },
-  {
-    id: 'prod4',
-    name: 'Avena Quaker Tradicional',
-    price: 'S/ 12.80 un',
-    imageUrl: imgavena,
-    oldPrice: null,
-    discount: null,
-    category: 'Abarrotes',
-    description: 'Avena Quaker tradicional, la opción clásica para un desayuno nutritivo. Fuente de fibra y energía para empezar bien el día. Ideal para preparar atoles, galletas o añadir a tus batidos.',
-    presentation: 'Caja 800g'
-  },
-  {
-    id: 'prod5',
-    name: 'Arroz Costeño Graneadito',
-    price: 'S/ 4.50 x KG', 
-    imageUrl: imgArroz,
-    oldPrice: null,
-    discount: null,
-    category: 'Abarrotes',
-    description: 'Arroz extra largo de la marca Costeño, seleccionado por su calidad superior para un graneado perfecto en todas tus comidas. El acompañante indispensable en tu mesa.',
-    presentation: 'Bolsa 750g (precio por KG de referencia)'
-  },
-  {
-    id: 'prod6',
-    name: 'Leche Gloria Evaporada Entera',
-    price: 'S/ 3.80 un',
-    imageUrl: imgLeche,
-    oldPrice: 'S/ 4.20',
-    discount: '10%',
-    category: 'Lácteos',
-    description: 'Leche evaporada entera Gloria, la tradicional y preferida por las familias peruanas. Ideal para tus postres, café, o para beber sola. Enriquecida con vitaminas A y D para una nutrición completa.',
-    presentation: 'Lata 400g'
-  },
-];
-
-export const categories = [ 
-  { id: 'cat1', name: 'Frutas y Verduras', imageUrl: imgfrutas, description: 'Las frutas y verduras más frescas y de temporada, directas del campo a tu mesa.' },
-  { id: 'cat2', name: 'Carnes, Aves y Pescado', imageUrl: imgcarnes, description: 'Cortes selectos de carnes rojas, pollo fresco y una variedad de pescados y mariscos.' },
-  { id: 'cat3', name: 'Abarrotes', imageUrl: imgabarrotes, description: 'Todo lo que necesitas para tu despensa, desde granos y pastas hasta conservas y snacks.' },
-];
-
 const PRODUCTS_PER_PAGE = 3; 
 
 function HomePage({ addToCart }) {
   const [currentBannerIndex, setCurrentBannerIndex] = useState(0);
   const [currentProductPage, setCurrentProductPage] = useState(0);
+  const [featuredProducts, setFeaturedProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  // Cargar productos destacados desde la API
+  useEffect(() => {
+    const fetchFeaturedProducts = async () => {
+      try {
+        console.log('Iniciando fetch de productos destacados...');
+        const response = await fetch('http://localhost:3001/api/products/featured');
+        const data = await response.json();
+        
+        if (data.success) {
+          console.log('📦 Productos recibidos:', data.products);
+          
+          // Debugging detallado de URLs
+          data.products.forEach((product, index) => {
+            console.log(`🖼️ Producto ${index + 1}: ${product.name}`);
+            console.log(`   - URL imagen: ${product.imageUrl}`);
+            console.log(`   - URL completa: http://localhost:3001${product.imageUrl}`);
+          });
+          
+          setFeaturedProducts(data.products);
+        } else {
+          setError('Error al cargar productos destacados');
+        }
+      } catch (error) {
+        console.error('Error al cargar productos:', error);
+        setError('Error de conexión al cargar productos');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchFeaturedProducts();
+  }, []);
+
+  // Cargar categorías desde la API
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        console.log('🔍 Cargando categorías...');
+        const response = await fetch('http://localhost:3001/api/categories');
+        const data = await response.json();
+        
+        console.log('📦 Respuesta de categorías:', data);
+        
+        if (data.success) {
+          console.log(`✅ ${data.categories.length} categorías encontradas:`);
+          data.categories.forEach((category, index) => {
+            console.log(`   ${index + 1}. ${category.name}`);
+            console.log(`      - imageUrl: "${category.imageUrl}"`);
+            console.log(`      - URL completa: http://localhost:3001${category.imageUrl}`);
+          });
+          
+          setCategories(data.categories);
+        } else {
+          console.error('❌ Error en respuesta de categorías:', data.message);
+          setError('Error al cargar categorías');
+        }
+      } catch (error) {
+        console.error('❌ Error al cargar categorías:', error);
+        setError('Error de conexión al cargar categorías');
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  // Banner automático
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentBannerIndex((prevIndex) => (prevIndex + 1) % bannerImages.length);
@@ -127,6 +108,39 @@ function HomePage({ addToCart }) {
   const startIndex = currentProductPage * PRODUCTS_PER_PAGE;
   const endIndex = startIndex + PRODUCTS_PER_PAGE;
   const displayedProducts = featuredProducts.slice(startIndex, endIndex);
+
+  if (loading) {
+    return (
+      <div className="homepage-container">
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          height: '50vh',
+          fontSize: '18px' 
+        }}>
+          Cargando productos...
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="homepage-container">
+        <div style={{ 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'center', 
+          height: '50vh',
+          fontSize: '18px',
+          color: 'red' 
+        }}>
+          {error}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="homepage-container">
@@ -159,24 +173,37 @@ function HomePage({ addToCart }) {
             &gt;
           </button>
         </div>
-        <div className="products-grid">
-          {displayedProducts.map(product => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddToCart={addToCart}
-            />
-          ))}
-        </div>
+        
+        {displayedProducts.length > 0 ? (
+          <div className="products-grid">
+            {displayedProducts.map(product => (
+              <ProductCard
+                key={product.id}
+                product={product}
+                onAddToCart={addToCart}
+              />
+            ))}
+          </div>
+        ) : (
+          <div style={{ textAlign: 'center', padding: '20px' }}>
+            <p>No hay productos destacados disponibles</p>
+          </div>
+        )}
       </section>
 
       <section className="categories-section">
         <h2 className="section-title"><span>Explorar Categorías</span></h2>
-        <div className="categories-grid">
-          {categories.map(category => (
-            <CategoryCard key={category.id} category={category} />
-          ))}
-        </div>
+        {categories.length > 0 ? (
+          <div className="categories-grid">
+            {categories.map(category => (
+              <CategoryCard key={category.id} category={category} />
+            ))}
+          </div>
+        ) : (
+          <div style={{ textAlign: 'center', padding: '20px' }}>
+            <p>No hay categorías disponibles</p>
+          </div>
+        )}
       </section>
     </div>
   );

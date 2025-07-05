@@ -1,21 +1,22 @@
 /* Contenedor principal del header */
 .app-header {
-    background-color: #ffffff; 
-    padding: 0 20px; /* Padding horizontal */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); 
+    background-color: #333; 
+    color: white;
+    padding: 1rem 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     position: sticky; /* Para que se quede fijo en la parte superior */
     top: 0;
     z-index: 1000; 
     width: 100%;
   }
   
-  .header-container {
+  .header-content {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    height: 70px; 
-    max-width: 1200px; 
-    margin: 0 auto; /* Centrar el contenido del header */
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
   }
   
   /* Contenedor del logo/nombre de la tienda */
@@ -26,7 +27,7 @@
   .mitienda-logo-button { /* Estilo para el Link "MiTienda" */
     font-size: 1.8rem;
     font-weight: bold;
-    color: #007bff;
+    color: #fff;
     text-decoration: none;
     transition: color 0.2s ease-in-out;
   }
@@ -186,7 +187,7 @@
   
   /* Botón de cerrar sesión */
   .logout-button {
-    background: #ff4d4f;
+    background: #dc3545;
     color: #fff;
     padding: 6px 12px; 
     border-radius: 6px; 
@@ -198,7 +199,7 @@
   }
   
   .logout-button:hover {
-    background: #e6393b; 
+    background: #c82333; 
   }
   
   /* Botón del carrito */
@@ -225,4 +226,15 @@
   .app-header [role="img"] {
     font-size: 1.2rem;
   }
-  
+
+  @media (max-width: 768px) {
+    .header-content {
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .header-actions {
+      width: 100%;
+      justify-content: center;
+    }
+  }
