@@ -11,38 +11,49 @@ function ProductDetailPage({ addToCart }) {
   const [imageError, setImageError] = useState(false);
   const navigate = useNavigate();
 
-  // Cargar producto desde la API usando el ID
   useEffect(() => {
     const fetchProduct = async () => {
       try {
+        setLoading(true);
+        setError(null);
+
+        // Validate ID
+        if (!id || isNaN(id)) {
+          throw new Error('ID de producto no válido');
+        }
+
         console.log('🔍 Cargando producto con ID:', id);
-        const response = await fetch(`http://localhost:3001/api/products/${id}`);
+        const response = await fetch(`http://localhost:3001/api/products/${id}`, {
+          method: 'GET',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          }
+        });
+        
+        if (!response.ok) {
+          throw new Error(`Error HTTP: ${response.status}`);
+        }
+        
         const data = await response.json();
         
-        console.log('📦 Respuesta del servidor:', data);
-        
-        if (data.success) {
-          console.log('✅ Producto cargado:', data.product);
-          console.log('🖼️ URL de imagen:', data.product.imageUrl);
-          setProduct(data.product);
-        } else {
-          console.error('❌ Error en respuesta:', data.message);
-          setError(data.message || 'Producto no encontrado');
+        if (!data.success || !data.product) {
+          throw new Error(data.message || 'Producto no encontrado');
         }
+
+        console.log('✅ Producto cargado:', data.product);
+        setProduct(data.product);
+
       } catch (error) {
-        console.error('❌ Error al cargar producto:', error);
-        setError('Error de conexión al cargar el producto');
+        console.error('❌ Error:', error);
+        setError(error.message);
+        setProduct(null);
       } finally {
         setLoading(false);
       }
     };
 
-    if (id) {
-      fetchProduct();
-    } else {
-      setError('ID de producto no válido');
-      setLoading(false);
-    }
+    fetchProduct();
   }, [id]);
 
   const handleImageError = (e) => {

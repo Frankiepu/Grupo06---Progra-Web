@@ -4,76 +4,165 @@ import './DetalleOrdenUsuario.css';
 
 function DetalleOrdenUsuario({ getOrderById, updateOrderStatus }) {
   const { orderId } = useParams();
-
   const [orden, setOrden] = useState(null);
   const [cargando, setCargando] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const fetchOrder = async () => {
+      try {
+        setCargando(true);
+        console.log('🔍 Buscando orden:', orderId);
+        
+        const response = await fetch(`http://localhost:3001/api/orders/${encodeURIComponent(orderId)}`, {
+          headers: {
+            'Accept': 'application/json'
+          }
+        });
 
-    const cargarOrden = () => {
-      if (orderId && getOrderById) {
-        const foundOrder = getOrderById(orderId);
-        if (foundOrder) {
-          setOrden(foundOrder);
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.message || 'Error al cargar la orden');
+        }
+
+        if (data.success && data.order) {
+          const transformedOrder = {
+            id: data.order.id,
+            fecha: new Date(data.order.createdAt).toLocaleDateString('es-ES'),
+            estado: data.order.status,
+            cliente: {
+              nombre: data.order.clientName,
+              correo: data.order.clientEmail,
+              telefono: data.order.clientPhone
+            },
+            direccionEnvio: data.order.shippingAddress,
+            items: data.order.items.map(item => ({
+              id: item.productId,
+              nombre: item.product?.name || 'Producto no disponible',
+              imageUrl: item.product?.image_url || '',
+              presentacion: item.product?.presentation || 'N/A',
+              cantidad: item.quantity,
+              precioUnitario: item.unitPrice,
+              precioTotalItem: item.totalPrice
+            })),
+            metodoPago: data.order.paymentMethod,
+            resumenCosto: {
+              subtotal: parseFloat(data.order.totalAmount) - 10,
+              envio: 10.00,
+              descuentos: 0.00,
+              totalGeneral: parseFloat(data.order.totalAmount)
+            }
+          };
+
+          console.log('✅ Orden transformada:', transformedOrder);
+          setOrden(transformedOrder);
           setError(null);
         } else {
-
-          setOrden(null);
+          throw new Error('No se pudo cargar la orden');
         }
-      } else {
-        setError('No se pudo cargar la información de la orden (ID o función no provistos).');
+
+      } catch (error) {
+        console.error('❌ Error al cargar la orden:', error);
+        setError('Error al cargar la orden: ' + error.message);
         setOrden(null);
+      } finally {
+        setCargando(false);
       }
-      setCargando(false);
     };
 
-    setCargando(true);
-
-    const timer = setTimeout(() => {
-      cargarOrden();
-    }, 100);
-
-    return () => clearTimeout(timer);
-
-  }, [orderId, getOrderById]);
-
-
-  useEffect(() => {
-    if (orderId && getOrderById) {
-      const currentOrderDataFromApp = getOrderById(orderId);
-      if (currentOrderDataFromApp && JSON.stringify(currentOrderDataFromApp) !== JSON.stringify(orden)) {
-        setOrden(currentOrderDataFromApp);
-      } else if (!currentOrderDataFromApp && orden) {
-        setError('La orden solicitada ya no está disponible.');
-        setOrden(null);
-      }
+    if (orderId) {
+      fetchOrder();
     }
+  }, [orderId]);
 
-  }, [orderId, getOrderById, orden]);
+  // Show loading state
+  if (cargando) {
+    return (
+      <div className="detalle-orden-container loading-container">
+        <p>Cargando detalles de la orden...</p>
+      </div>
+    );
+  }
 
+  // Show error state
+  if (error) {
+    return (
+      <div className="detalle-orden-container error-container">
+        <p>{error}</p>
+        <Link to="/usuario/ordenes" className="button-secondary">
+          ← Volver a Mis Órdenes
+        </Link>
+      </div>
+    );
+  }
 
-  const handleCancelarOrden = () => {
+  // Show empty state
+  if (!orden) {
+    return (
+      <div className="detalle-orden-container error-container">
+        <p>No se encontró la orden solicitada</p>
+        <Link to="/usuario/ordenes" className="button-secondary">
+          ← Volver a Mis Órdenes
+        </Link>
+      </div>
+    );
+  }
+
+  const handleCancelarOrden = async () => {
     if (orden && orden.estado === 'Procesando') {
-      if (window.confirm('¿Estás seguro de que deseas cancelar esta orden? Esta acción no se puede deshacer.')) {
-        console.log(`Intentando cancelar orden: ${orden.id} desde DetalleOrdenUsuario`);
-        if (updateOrderStatus) {
-          updateOrderStatus(orden.id, 'Cancelado (Pendiente)');
+      if (window.confirm('¿Estás seguro de que deseas cancelar esta orden?')) {
+        try {
+          // Try API first
+          const response = await fetch(`http://localhost:3001/api/orders/${orden.id}/cancel`, {
+            method: 'PUT'
+          });
+          const data = await response.json();
+          
+          if (data.success) {
+            setOrden(prev => ({...prev, estado: 'Cancelado'}));
+            // Update parent state
+            updateOrderStatus(orden.id, 'Cancelado');
+          } else {
+            // If API fails, update local state only
+            setOrden(prev => ({...prev, estado: 'Cancelado'}));
+            updateOrderStatus(orden.id, 'Cancelado');
+          }
+        } catch (error) {
+          // If API fails, update local state only
+          setOrden(prev => ({...prev, estado: 'Cancelado'}));
+          updateOrderStatus(orden.id, 'Cancelado');
         }
-        alert(`Simulación: Solicitud de cancelación para la orden ${orden.id} enviada. El estado se actualizará.`);
       }
-    } else {
-      alert('Esta orden no se puede cancelar en su estado actual.');
     }
   };
 
-  if (cargando) return <div className="detalle-orden-container loading-container">Cargando detalles de la orden...</div>;
-  if (error && !orden) return <div className="detalle-orden-container error-container">{error}</div>;
-  if (!orden) return <div className="detalle-orden-container error-container">No se encontró la orden solicitada o no hay datos para mostrar.</div>;
-
   const sePuedeCancelar = orden.estado === 'Procesando';
 
-  const EstadoDelPedido = Math.random() < 0.5 ? 'Preparando' : Math.random() < 0.5 ? 'Enviado' : 'Entregado';
+  const getStatusClass = (status) => {
+    switch (status.toLowerCase()) {
+      case 'procesando': return 'active procesando';
+      case 'preparando': return 'active preparando';
+      case 'enviado': return 'active enviado';
+      case 'entregado': return 'active entregado';
+      case 'cancelado': return 'canceled';
+      default: return '';
+    }
+  };
+
+  const renderItemImage = (imageUrl, nombre) => {
+    return (
+      <img
+        src={imageUrl || "https://placehold.co/80x80/CCCCCC/FFFFFF?text=Img"}
+        alt={nombre}
+        className="item-image"
+        onError={(e) => {
+          e.target.onerror = null;
+          e.target.src = "https://placehold.co/80x80/CCCCCC/FFFFFF?text=Img";
+        }}
+      />
+    );
+  };
 
   return (
     <div className="detalle-orden-page">
@@ -111,16 +200,13 @@ function DetalleOrdenUsuario({ getOrderById, updateOrderStatus }) {
           <h2 className="section-title">Artículos en la Orden ({orden.items.reduce((acc, item) => acc + item.cantidad, 0)} productos)</h2>
           <div className="items-list">
             {orden.items.map(item => (
-              <div key={item.id + '-' + item.nombre} className="orden-item-card"> { }
-                <img
-                  src={item.imageUrl}
-                  alt={item.nombre}
-                  className="item-image"
-                  onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/80x80/CCCCCC/FFFFFF?text=Img"; }}
-                />
+              <div key={`${item.id}-${item.nombre}`} className="orden-item-card">
+                {renderItemImage(item.imageUrl, item.nombre)}
                 <div className="item-details">
                   <h3 className="item-name">{item.nombre}</h3>
-                  <p className="item-presentation">Presentación: {item.presentacion}</p>
+                  <p className="item-presentation">
+                    Presentación: {item.presentacion}
+                  </p>
                   <p className="item-price-quantity">
                     {item.cantidad} x S/ {item.precioUnitario.toFixed(2)}
                   </p>
@@ -157,7 +243,8 @@ function DetalleOrdenUsuario({ getOrderById, updateOrderStatus }) {
         <section className="orden-resumen-costo-section">
           <h2 className="section-title">Estado del Pedido</h2>
           <div className="estado-pedido-container">
-            <div className={"estado-pedido" + (EstadoDelPedido === 'Preparando' ? ' active' : '')}>
+            <div className={`estado-pedido ${orden.estado === 'Preparando' ? 'active' : ''} 
+                            ${orden.estado === 'Procesando' ? 'current' : ''}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 32 32"
@@ -171,8 +258,8 @@ function DetalleOrdenUsuario({ getOrderById, updateOrderStatus }) {
                 ></path>
               </svg>
               <span>Preparando</span>
-              </div>
-            <div className="estado-pedido">
+            </div>
+            <div className={`estado-pedido ${orden.estado === 'Enviado' ? 'active' : ''}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -185,8 +272,9 @@ function DetalleOrdenUsuario({ getOrderById, updateOrderStatus }) {
                   d="M19.44 9.03L17.31 6.9l-1.6-1.6c-.19-.19-.45-.3-.71-.3h-3c-.55 0-1 .45-1 1s.45 1 1 1h2.59l2 2H5c-2.8 0-5 2.2-5 5s2.2 5 5 5c2.46 0 4.45-1.69 4.9-4h.82c.53 0 1.04-.21 1.41-.59l2.18-2.18c-.2.54-.31 1.14-.31 1.77c0 2.8 2.2 5 5 5s5-2.2 5-5c0-2.65-1.97-4.77-4.56-4.97M5 15h2.82C7.4 16.15 6.28 17 5 17c-1.63 0-3-1.37-3-3s1.37-3 3-3c1.28 0 2.4.85 2.82 2H5c-.55 0-1 .45-1 1s.45 1 1 1m14 2c-1.66 0-3-1.34-3-3s1.34-3 3-3s3 1.34 3 3s-1.34 3-3 3"
                 ></path>
               </svg>
-              <span>Enviado</span></div>
-            <div className="estado-pedido">
+              <span>Enviado</span>
+            </div>
+            <div className={`estado-pedido ${orden.estado === 'Entregado' ? 'active' : ''}`}>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
@@ -206,7 +294,8 @@ function DetalleOrdenUsuario({ getOrderById, updateOrderStatus }) {
                   <path d="M8.326 9.691L5.405 8.278C3.802 7.502 3 7.114 3 6.5s.802-1.002 2.405-1.778l2.92-1.413C10.13 2.436 11.03 2 12 2s1.871.436 3.674 1.309l2.921 1.413C20.198 5.498 21 5.886 21 6.5s-.802 1.002-2.405 1.778l-2.92 1.413C13.87 10.564 12.97 11 12 11s-1.871-.436-3.674-1.309M6 12l2 1m9-9L7 9"></path>
                 </g>
               </svg>
-              <span>Entregado</span></div>
+              <span>Entregado</span>
+            </div>
           </div>
         </section>
 

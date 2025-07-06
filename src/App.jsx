@@ -73,16 +73,80 @@ function AppContent() {
 
   const totalCartItemCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
-  const handleCompleteOrder = (orderDetailsFromCheckout) => {
-    const newOrderId = `ORD-${Date.now()}-${Math.random().toString(36).substr(2, 5).toUpperCase()}`;
-    const newOrder = { id: newOrderId, fecha: new Date().toLocaleDateString('es-ES'), fechaOriginal: new Date(), estado: 'Procesando', ...orderDetailsFromCheckout };
-    setCompletedOrders(prevOrders => [...prevOrders, newOrder]);
-    setCartItems([]);
-    navigate(`/usuario/orden/detalle/${newOrderId}`);
-    return newOrder;
+  const handleCompleteOrder = async (orderDetailsFromCheckout) => {
+    try {
+      console.log('📦 Creando nueva orden:', orderDetailsFromCheckout);
+      
+      // Send order to backend first
+      const response = await fetch('http://localhost:3001/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderDetailsFromCheckout)
+      });
+
+      if (!response.ok) {
+        throw new Error('Error al crear la orden');
+      }
+
+      const result = await response.json();
+      
+      if (!result.success || !result.order) {
+        throw new Error('Respuesta inválida del servidor');
+      }
+
+      console.log('✅ Orden creada exitosamente:', result.order);
+
+      // Update local state with the order from the server
+      const newOrder = {
+        ...result.order,
+        fecha: new Date(result.order.createdAt).toLocaleDateString('es-ES'),
+        fechaOriginal: new Date(result.order.createdAt)
+      };
+
+      setCompletedOrders(prevOrders => [...prevOrders, newOrder]);
+      setCartItems([]); // Clear cart
+      navigate(`/usuario/orden/detalle/${result.order.id}`);
+      return newOrder;
+
+    } catch (error) {
+      console.error('❌ Error al crear orden:', error);
+      alert('Error al crear la orden: ' + error.message);
+      return null;
+    }
   };
 
-  const getOrderById = (orderId) => completedOrders.find(order => order.id === orderId);
+  // Update getOrderById to include API fallback
+  const getOrderById = async (orderId) => {
+    try {
+      console.log('🔍 Buscando orden:', orderId);
+      
+      // First try to get from local state
+      const localOrder = completedOrders.find(order => order.id === orderId);
+      if (localOrder) {
+        console.log('✅ Orden encontrada en estado local:', localOrder);
+        return localOrder;
+      }
+
+      // If not found locally, try API
+      console.log('🔄 Buscando orden en API:', orderId);
+      const response = await fetch(`http://localhost:3001/api/orders/${orderId}`);
+      const data = await response.json();
+
+      if (data.success && data.order) {
+        console.log('✅ Orden encontrada en API:', data.order);
+        return data.order;
+      }
+
+      console.error('❌ Orden no encontrada');
+      return null;
+    } catch (error) {
+      console.error('❌ Error al buscar orden:', error);
+      return null;
+    }
+  };
+
   const updateOrderStatus = (orderId, newStatus) => {
     setCompletedOrders(prevOrders =>
       prevOrders.map(order =>
@@ -107,7 +171,7 @@ function AppContent() {
         <Route path="/productos" element={<UserLayout {...userLayoutProps}><ProductsPagePlaceholder addToCart={handleAddToCart} /></UserLayout>}/>
         <Route path="/categorias" element={<UserLayout {...userLayoutProps}><CategoriesPage addToCart={handleAddToCart} /></UserLayout>}/>
         <Route 
-          path="/producto/:productId" 
+          path="/producto/:id"  // Changed from :productId to :id
           element={
             <UserLayout {...userLayoutProps}>
               <ProductDetailPage addToCart={handleAddToCart} />
@@ -140,7 +204,10 @@ function AppContent() {
         <Route path="/usuario/orden/detalle/:orderId" element={
           <ProtectedRoute>
             <UserLayout {...userLayoutProps}>
-              <DetalleOrdenUsuario getOrderById={getOrderById} updateOrderStatus={updateOrderStatus} />
+              <DetalleOrdenUsuario 
+                getOrderById={getOrderById}
+                updateOrderStatus={updateOrderStatus}
+              />
             </UserLayout>
           </ProtectedRoute>
         }/>

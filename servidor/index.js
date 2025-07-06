@@ -10,6 +10,7 @@ const db = require('./models');
 const userRoutes = require('./routes/users');
 const productRoutes = require('./routes/products');
 const categoryRoutes = require('./routes/categories');
+const orderRoutes = require('./routes/orders'); // Add this line
 
 // Middlewares básicos
 app.use(express.json());
@@ -72,6 +73,7 @@ app.use('/assets', express.static(assetsPath, {
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/categories', categoryRoutes);
+app.use('/api/orders', orderRoutes); // Add this line
 
 // Ruta de prueba para assets
 app.get('/api/test-assets', (req, res) => {

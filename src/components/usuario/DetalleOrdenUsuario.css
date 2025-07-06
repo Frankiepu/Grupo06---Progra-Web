@@ -1,4 +1,3 @@
-
 .detalle-orden-page {
   font-family: 'Inter', sans-serif;
   background-color: #f4f6f8; 
@@ -16,6 +15,30 @@
   padding: 50px 20px;
   font-size: 1.2em;
   color: #6c757d;
+}
+
+.loading-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 300px;
+  text-align: center;
+}
+
+.loading-container p {
+  font-size: 1.2em;
+  color: #666;
+  padding: 20px;
+}
+
+.error-container {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.error-container p {
+  color: #dc3545;
+  margin-bottom: 20px;
 }
 
 .detalle-orden-header {
